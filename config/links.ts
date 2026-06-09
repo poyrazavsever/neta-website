@@ -1,5 +1,4 @@
 export const NAV_LINKS = [
-  { id: "overview", label: "Genel Bakış", href: "#overview" },
   { id: "modules", label: "Modüller", href: "#modules" },
   { id: "client-portal", label: "Müşteri Portalı", href: "#client-portal" },
   { id: "ai-assistant", label: "AI Asistan", href: "#ai-assistant" },
@@ -68,4 +67,3 @@ export const SOCIAL_LINKS = [
     icon: "mdi:coffee",
   },
 ] as const;
-
