@@ -83,7 +83,7 @@ const MODULES = [
 
 export function ModulesSection() {
   return (
-    <section id="modules" className="border-t border-border px-4 py-16 sm:py-20">
+    <section id="modules" className="px-4 py-16 sm:py-20">
       <div className="container mx-auto max-w-5xl">
         <div className="mb-8 max-w-2xl space-y-3">
           <Typography variant="h2" component="h2" className="text-3xl">

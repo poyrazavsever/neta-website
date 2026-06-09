@@ -27,8 +27,13 @@ export function SiteHeader() {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      window.history.pushState(null, "", `#${id}`);
     }
+  };
+
+  const scrollToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.history.pushState(null, "", window.location.pathname);
   };
 
   return (
@@ -42,7 +47,7 @@ export function SiteHeader() {
       <div className="container max-w-5xl mx-auto px-4 h-12 mt-2 mb-4 flex items-end justify-between">
         <div className="flex items-end gap-8">
           <div className="flex shrink-0 items-center">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" onClick={scrollToTop} className="flex items-center gap-2">
               <img
                 src="/logo/blackLogoLong.png"
                 alt="Neta Logo"

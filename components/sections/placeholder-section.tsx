@@ -9,7 +9,7 @@ export function PlaceholderSection({ id, title, className, ...props }: SectionPr
   return (
     <section
       id={id}
-      className={`min-h-screen flex items-center justify-center border-t border-border px-4 ${className || ""}`}
+      className={`min-h-screen flex items-center justify-center px-4 ${className || ""}`}
       {...props}
     >
       <div className="text-center">
