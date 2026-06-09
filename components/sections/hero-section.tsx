@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
-import { Button } from "poyraz-ui/atoms";
+import { Typography } from "poyraz-ui/atoms";
 
 const INSTALL_COMMAND =
   "curl -sL https://raw.githubusercontent.com/poyrazavsever/neta/main/install.sh | bash";
@@ -32,37 +32,51 @@ export function HeroSection() {
     <section className="relative flex flex-col items-center pt-24 sm:pt-32 overflow-hidden min-h-[80vh]">
       {/* Content */}
       <div className="container max-w-3xl mx-auto space-y-5 text-center z-10 relative px-4">
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+        <Typography
+          variant="h1"
+          component="h1"
+          className="text-4xl sm:text-5xl"
+        >
           Tüm Freelance Süreciniz <br className="hidden sm:block" />
-          <span className="text-primary">Tek Bir Çatı Altında</span>
-        </h1>
+          <span className="font-secondary text-primary">
+            Tek Bir Çatı Altında
+          </span>
+        </Typography>
         
-        <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto">
+        <Typography
+          variant="lead"
+          className="max-w-xl mx-auto sm:text-lg"
+        >
           Müşterilerinizi sisteme kaydedin, projeleri planlayın ve onların durumu takip edebilmesi için özel portal hesapları oluşturun. Self-hosted kontrol sizde.
-        </p>
+        </Typography>
         
-        <div className="mx-auto flex w-full max-w-2xl items-center gap-2 rounded-sm border border-border bg-card p-2 text-left shadow-sm">
-          <div className="flex min-w-0 flex-1 items-center gap-3 px-3">
+        <button
+          type="button"
+          onClick={copyInstallCommand}
+          className={`mx-auto flex w-full max-w-2xl items-center gap-3 rounded-sm border bg-card px-4 py-3 text-left transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+            copied ? "border-emerald-500" : "border-border"
+          }`}
+          aria-label="Kurulum komutunu kopyala"
+        >
+          <div className="flex min-w-0 flex-1 items-center gap-3">
             <span className="hidden h-2.5 w-2.5 shrink-0 rounded-full bg-primary sm:block" />
-            <code className="truncate text-xs font-medium text-foreground sm:text-sm">
+            <code className="font-sans truncate text-xs font-medium text-foreground sm:text-sm">
               {INSTALL_COMMAND}
             </code>
           </div>
-          <Button
-            size="sm"
-            className="h-9 shrink-0 gap-2"
-            onClick={copyInstallCommand}
+          <span
+            className="flex shrink-0 items-center gap-2 text-xs font-medium text-muted-foreground"
             aria-live="polite"
           >
             <Icon
               icon={copied ? "mdi:check" : "mdi:content-copy"}
-              className="h-4 w-4"
+              className={`h-4 w-4 ${copied ? "text-emerald-500" : ""}`}
             />
             <span className="hidden sm:inline">
               {copied ? "Kopyalandı" : "Kopyala"}
             </span>
-          </Button>
-        </div>
+          </span>
+        </button>
       </div>
 
       {/* Parallax Scaling Image (Alta sıfır, user ayarı) */}
