@@ -24,17 +24,17 @@ const PORTAL_SCREENS = [
 const POSITIONS = [
   {
     wrapper:
-      "z-30 left-1/2 top-1/2 w-[78%] -translate-x-1/2 -translate-y-1/2 opacity-100",
+      "left-1/2 top-1/2 w-[78%] -translate-x-1/2 -translate-y-1/2",
     image: "scale-100",
   },
   {
     wrapper:
-      "z-20 right-0 top-5 w-[58%] translate-x-0 translate-y-0 opacity-45",
+      "right-0 top-5 w-[58%] translate-x-0 translate-y-0",
     image: "scale-95",
   },
   {
     wrapper:
-      "z-10 left-0 bottom-5 w-[58%] translate-x-0 translate-y-0 opacity-35",
+      "left-0 bottom-5 w-[58%] translate-x-0 translate-y-0",
     image: "scale-95",
   },
 ] as const;
@@ -61,7 +61,7 @@ export function ClientPortalSection() {
             <div className="space-y-3">
               <Typography variant="h2" component="h2" className="text-3xl">
                 Müşteriye ayrı, kontrollü bir{" "}
-                <span className="font-secondary text-primary">portal</span>
+                <span className="font-display text-primary">portal</span>
               </Typography>
               <Typography variant="lead">
                 Müşteriler yalnızca kendi projelerinin durumunu, görünür
@@ -87,21 +87,19 @@ export function ClientPortalSection() {
             <div className="absolute inset-0 rounded-sm border border-border bg-muted/40" />
             <div className="absolute inset-4 overflow-hidden rounded-sm border border-border bg-card">
               {PORTAL_SCREENS.map((screen, index) => {
-                const position =
-                  POSITIONS[
-                    (index - activeIndex + PORTAL_SCREENS.length) %
-                      PORTAL_SCREENS.length
-                  ];
-
+                const isActive = index === activeIndex;
+                const position = POSITIONS[index];
                 return (
                   <div
                     key={screen.title}
-                    className={`absolute transition-all duration-700 ease-out ${position.wrapper}`}
+                    className={`absolute transition-opacity duration-700 ease-out ${
+                      isActive ? "z-30 opacity-100" : "z-10 opacity-20"
+                    } ${position.wrapper}`}
                   >
                     <img
                       src={screen.image}
                       alt={screen.alt}
-                      className={`h-auto w-full rounded-sm border border-border bg-background transition-transform duration-700 ease-out ${position.image}`}
+                      className={`h-auto w-full rounded-sm border border-border bg-background ${position.image}`}
                     />
                   </div>
                 );

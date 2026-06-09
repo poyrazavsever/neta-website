@@ -43,7 +43,7 @@ export function SelfHostSection() {
               <div className="space-y-3">
                 <Typography variant="h2" component="h2" className="text-3xl">
                   Kendi sunucunda{" "}
-                  <span className="font-secondary text-primary">self-host</span>
+                  <span className="font-display text-primary">self-host</span>
                 </Typography>
                 <Typography variant="lead">
                   Neta, freelancer verisini kendi altyapısında tutması için

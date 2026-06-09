@@ -88,7 +88,7 @@ export function ModulesSection() {
         <div className="mb-8 max-w-2xl space-y-3">
           <Typography variant="h2" component="h2" className="text-3xl">
             Freelancer iş akışının tüm{" "}
-            <span className="font-secondary text-primary">modülleri</span>
+            <span className="font-display text-primary">modülleri</span>
           </Typography>
           <Typography variant="lead">
             Günlük planından müşteri teslimlerine, finans takibinden AI

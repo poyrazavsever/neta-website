@@ -38,7 +38,7 @@ export function HeroSection() {
           className="text-4xl sm:text-5xl"
         >
           Tüm Freelance Süreciniz <br className="hidden sm:block" />
-          <span className="font-secondary text-primary">
+          <span className="font-display text-primary">
             Tek Bir Çatı Altında
           </span>
         </Typography>

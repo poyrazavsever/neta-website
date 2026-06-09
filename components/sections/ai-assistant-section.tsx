@@ -46,7 +46,7 @@ export function AiAssistantSection() {
             <div className="space-y-3">
               <Typography variant="h2" component="h2" className="text-3xl">
                 Çalışma alanını bilen{" "}
-                <span className="font-secondary text-primary">AI asistan</span>
+                <span className="font-display text-primary">AI asistan</span>
               </Typography>
               <Typography variant="lead">
                 Neta içindeki asistan, boş bir sohbet kutusu gibi davranmaz.

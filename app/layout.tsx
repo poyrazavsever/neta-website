@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
+import { Agbalumo, Inter } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const agbalumo = Agbalumo({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-agbalumo",
+});
 
 export const metadata: Metadata = {
   title: "Neta",
@@ -14,7 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased min-h-screen flex flex-col">
+      <body
+        className={`${inter.variable} ${agbalumo.variable} antialiased min-h-screen flex flex-col`}
+      >
         <SiteHeader />
         <main className="flex-1 pt-24">{children}</main>
       </body>
