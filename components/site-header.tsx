@@ -12,7 +12,6 @@ const HEADER_LINKS = [
     id: "modules",
     label: "Modules",
     href: "#modules",
-    active: false,
     accent: false,
     external: false,
   },
@@ -20,7 +19,6 @@ const HEADER_LINKS = [
     id: "client-portal",
     label: "Features",
     href: "#client-portal",
-    active: false,
     accent: false,
     external: false,
   },
@@ -28,7 +26,6 @@ const HEADER_LINKS = [
     id: "ai-assistant",
     label: "AI Assistant",
     href: "#ai-assistant",
-    active: false,
     accent: true,
     external: false,
   },
@@ -36,7 +33,6 @@ const HEADER_LINKS = [
     id: "self-host",
     label: "Self-hosted",
     href: "#self-host",
-    active: true,
     accent: false,
     external: false,
   },
@@ -44,7 +40,6 @@ const HEADER_LINKS = [
     id: "docs",
     label: "Docs",
     href: GITHUB_URL,
-    active: false,
     accent: false,
     external: true,
   },
@@ -53,10 +48,32 @@ const HEADER_LINKS = [
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("");
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
+
+      const sectionLinks = HEADER_LINKS.filter((item) => !item.external);
+      const viewportAnchor = window.innerHeight * 0.32;
+      let currentSection = "";
+
+      for (const item of sectionLinks) {
+        const element = document.getElementById(item.id);
+
+        if (!element) {
+          continue;
+        }
+
+        const rect = element.getBoundingClientRect();
+
+        if (rect.top <= viewportAnchor && rect.bottom > viewportAnchor) {
+          currentSection = item.id;
+          break;
+        }
+      }
+
+      setActiveSection(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -89,6 +106,7 @@ export function SiteHeader() {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
+      setActiveSection(id);
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -138,7 +156,8 @@ export function SiteHeader() {
 
             <nav className="hidden items-center justify-center gap-1.5 xl:flex">
               {HEADER_LINKS.map((item) => {
-                const className = item.active
+                const isActive = !item.external && activeSection === item.id;
+                const className = isActive
                   ? "relative bg-primary/8 text-primary shadow-[inset_0_0_0_1px_rgba(220,38,38,0.08)]"
                   : "text-foreground hover:bg-accent/70";
 
@@ -148,7 +167,7 @@ export function SiteHeader() {
                     {item.accent ? (
                       <Icon icon="mdi:sparkles" className="h-4 w-4 text-primary" />
                     ) : null}
-                    {item.active ? (
+                    {isActive ? (
                       <span className="absolute -bottom-3 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-primary" />
                     ) : null}
                   </>
@@ -252,7 +271,8 @@ export function SiteHeader() {
 
             <nav className="mt-12 grid gap-2">
               {HEADER_LINKS.map((item) => {
-                const className = item.active
+                const isActive = !item.external && activeSection === item.id;
+                const className = isActive
                   ? "border-primary/15 bg-primary/8 text-primary"
                   : "border-border/70 bg-card text-foreground";
 
