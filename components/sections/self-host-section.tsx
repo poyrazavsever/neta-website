@@ -1,131 +1,186 @@
 "use client";
 
-import { useState } from "react";
 import { Icon } from "@iconify/react";
-import { Button, Typography } from "poyraz-ui/atoms";
+import { Badge, Card, CardContent, Typography } from "poyraz-ui/atoms";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { AnimatedButton } from "@/components/ui/animated-button";
 
-const INSTALL_COMMAND =
-  "curl -sL https://raw.githubusercontent.com/poyrazavsever/neta/main/install.sh | bash";
+const DOCS_URL = "https://docs.takeneta.com";
 
-const SELF_HOST_ITEMS = [
+type SelfHostFlowItem = {
+  title: string;
+  description: string;
+  icon: string;
+  accent: boolean;
+  badges?: Array<{
+    label: string;
+    icon: string;
+  }>;
+};
+
+const SELF_HOST_FLOW: SelfHostFlowItem[] = [
   {
-    title: "Docker ile kurulur",
-    description: "Standalone build için Docker Compose akışı hazır gelir.",
+    title: "Sunucu",
+    description: "VPS / Bare Metal / Ev sunucusu",
+    icon: "mdi:server-outline",
+    accent: false,
+  },
+  {
+    title: "Docker",
+    description: "İzole, taşınabilir çalışma ortamı",
     icon: "mdi:docker",
+    accent: false,
   },
   {
-    title: "Supabase bağlantısı",
-    description:
-      "Auth, PostgreSQL ve RLS yapılarını kendi Supabase instance ile bağla.",
+    title: "Neta App",
+    description: "İş süreçlerin ve yönetim panelin",
+    icon: "mdi:bird",
+    accent: true,
+  },
+  {
+    title: "Supabase",
+    description: "Veritabanın senin kontrolünde",
     icon: "mdi:database-outline",
+    accent: false,
   },
   {
-    title: "Tek admin hesabı",
-    description:
-      "İlk kayıt sonrası public register kapanır; alan freelancer hesabına ait kalır.",
-    icon: "mdi:account-lock-outline",
+    title: "AI Models",
+    description: "",
+    icon: "mdi:brain",
+    accent: false,
+    badges: [
+      { label: "OpenAI", icon: "arcticons:openai-chatgpt" },
+      { label: "Gemini", icon: "vscode-icons:file-type-gemini" },
+      { label: "Ollama", icon: "simple-icons:ollama" },
+    ],
   },
 ] as const;
 
+function FlowCard({
+  item,
+  index,
+}: {
+  item: SelfHostFlowItem;
+  index: number;
+}) {
+  return (
+    <ScrollReveal
+      delay={index * 90}
+      y={20}
+      x={index % 2 === 0 ? -12 : 12}
+      className="relative"
+    >
+      <Card
+        variant="bordered"
+        className={`relative h-full rounded-[1.5rem] border bg-card/96 shadow-[0_16px_40px_rgba(16,24,40,0.08)] backdrop-blur ${
+          item.accent
+            ? "border-primary/30 shadow-[0_20px_54px_rgba(220,38,38,0.12)]"
+            : "border-border/70"
+        }`}
+      >
+        <CardContent className="flex h-full flex-col p-4 sm:p-5">
+          <div className="flex items-start justify-between gap-3">
+            <span
+              className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${
+                item.accent
+                  ? "bg-primary/10 text-primary"
+                  : "border border-border/80 bg-background text-foreground"
+              }`}
+            >
+              <Icon icon={item.icon} className="h-5.5 w-5.5" />
+            </span>
+
+            {item.accent ? (
+              <span className="mt-1 h-2 w-2 rounded-full bg-primary/80" />
+            ) : null}
+          </div>
+
+          <div className="mt-4 space-y-2 text-left">
+            <Typography variant="h3" component="h3" className="text-base leading-6">
+              {item.title}
+            </Typography>
+
+            {item.description ? (
+              <Typography
+                variant="muted"
+                className="text-sm leading-6 text-muted-foreground"
+              >
+                {item.description}
+              </Typography>
+            ) : null}
+          </div>
+
+          {item.badges ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {item.badges.map((badge) => (
+                <Badge
+                  key={badge.label}
+                  variant="outline"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border-border/80 bg-background p-0 text-foreground"
+                  aria-label={badge.label}
+                  title={badge.label}
+                >
+                  <Icon icon={badge.icon} className="h-5 w-5" />
+                </Badge>
+              ))}
+            </div>
+          ) : null}
+        </CardContent>
+      </Card>
+
+      {index < SELF_HOST_FLOW.length - 1 ? (
+        <>
+          <div className="pointer-events-none absolute -right-4 top-1/2 hidden h-px w-8 -translate-y-1/2 border-t-2 border-dashed border-primary/35 xl:block" />
+          <span className="pointer-events-none absolute -right-[1.1rem] top-1/2 hidden -translate-y-1/2 text-primary/70 xl:block">
+            <Icon icon="mdi:arrow-right" className="h-4 w-4" />
+          </span>
+        </>
+      ) : null}
+    </ScrollReveal>
+  );
+}
+
 export function SelfHostSection() {
-  const [copied, setCopied] = useState(false);
-
-  const copyInstallCommand = async () => {
-    await navigator.clipboard.writeText(INSTALL_COMMAND);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
-  };
-
   return (
     <section id="self-host" className="px-4 py-16 sm:py-20">
       <div className="container mx-auto max-w-5xl">
-        <ScrollReveal y={28} parallaxY={12}>
-          <div className="rounded-sm border border-border bg-card">
-            <div className="grid gap-8 p-5 sm:p-6 lg:grid-cols-[0.95fr_1.05fr] lg:p-8">
-              <ScrollReveal className="space-y-5" x={-20} y={20} delay={80}>
-                <div className="space-y-3">
-                  <Typography variant="h2" component="h2" className="text-3xl">
-                    Kendi sunucunda{" "}
-                    <span className="font-display text-primary">self-host</span>
-                  </Typography>
-                  <Typography variant="lead">
-                    Neta, freelancer verisini kendi altyapısında tutması için
-                    tasarlandı. Docker ile ayağa kaldır, Supabase instance
-                    yapısını bağla ve tek kullanıcılı işletim sistemini kur.
-                  </Typography>
-                </div>
+        <ScrollReveal className="mx-auto max-w-3xl text-center" parallaxY={10}>
+          <Typography variant="h2" component="h2" className="text-3xl">
+            Kendi sunucunda{" "}
+            <span className="font-display text-primary">self-host</span>
+          </Typography>
+          <Typography
+            variant="lead"
+            className="mx-auto mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg"
+          >
+            Neta; uygulama, veritabanı ve model seçimlerini sana bırakır.
+            Kendi stack&apos;in üzerinde çalışır, veri akışı tek bir kontrol
+            alanında kalır.
+          </Typography>
+        </ScrollReveal>
 
-                <Button size="sm" asChild>
-                  <a
-                    href="https://github.com/poyrazavsever/neta"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Icon icon="mdi:github" className="h-4 w-4" />
-                    GitHub reposunu aç
-                  </a>
-                </Button>
-              </ScrollReveal>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-5 xl:gap-5">
+          {SELF_HOST_FLOW.map((item, index) => (
+            <FlowCard key={item.title} item={item} index={index} />
+          ))}
+        </div>
 
-              <div className="space-y-4">
-                <ScrollReveal x={20} y={20} delay={140}>
-                  <button
-                    type="button"
-                    onClick={copyInstallCommand}
-                    className={`w-full rounded-sm border bg-background text-left transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card ${
-                      copied ? "border-emerald-500" : "border-border"
-                    }`}
-                    aria-label="Kurulum komutunu kopyala"
-                  >
-                    <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-                      <Typography variant="small">1-click installation</Typography>
-                      <span
-                        className="flex shrink-0 items-center gap-2 text-xs font-medium text-muted-foreground"
-                        aria-live="polite"
-                      >
-                        <Icon
-                          icon={copied ? "mdi:check" : "mdi:content-copy"}
-                          className={`h-4 w-4 ${copied ? "text-emerald-500" : ""}`}
-                        />
-                        <span>{copied ? "Kopyalandı" : "Kopyala"}</span>
-                      </span>
-                    </div>
-                    <div className="px-4 py-4">
-                      <code className="block overflow-x-auto whitespace-nowrap font-sans text-xs text-foreground sm:text-sm">
-                        {INSTALL_COMMAND}
-                      </code>
-                    </div>
-                  </button>
-                </ScrollReveal>
-
-                <div className="grid gap-3">
-                  {SELF_HOST_ITEMS.map((item, index) => (
-                    <ScrollReveal
-                      key={item.title}
-                      delay={200 + index * 90}
-                      x={18}
-                      y={16}
-                    >
-                      <div className="flex gap-3 rounded-sm border border-border bg-background p-3">
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-sm border border-border text-primary">
-                          <Icon icon={item.icon} className="h-4 w-4" />
-                        </span>
-                        <div className="space-y-1">
-                          <Typography variant="h3" component="h3" className="text-base">
-                            {item.title}
-                          </Typography>
-                          <Typography variant="lead" className="text-sm">
-                            {item.description}
-                          </Typography>
-                        </div>
-                      </div>
-                    </ScrollReveal>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+        <ScrollReveal
+          className="mt-8 flex justify-center"
+          delay={220}
+          y={18}
+        >
+          <AnimatedButton
+            href={DOCS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            icon="mdi:arrow-top-right"
+            iconPosition="right"
+            variant="outline"
+            className="min-w-48"
+          >
+            Dokümantasyonu İncele
+          </AnimatedButton>
         </ScrollReveal>
       </div>
     </section>
