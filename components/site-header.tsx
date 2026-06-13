@@ -9,14 +9,6 @@ const GITHUB_URL = "https://github.com/poyrazavsever/neta";
 
 const HEADER_LINKS = [
   {
-    id: "client-portal",
-    label: "Features",
-    href: "#client-portal",
-    active: false,
-    accent: false,
-    external: false,
-  },
-  {
     id: "modules",
     label: "Modules",
     href: "#modules",
@@ -25,10 +17,10 @@ const HEADER_LINKS = [
     external: false,
   },
   {
-    id: "self-host",
-    label: "Self-hosted",
-    href: "#self-host",
-    active: true,
+    id: "client-portal",
+    label: "Features",
+    href: "#client-portal",
+    active: false,
     accent: false,
     external: false,
   },
@@ -38,6 +30,14 @@ const HEADER_LINKS = [
     href: "#ai-assistant",
     active: false,
     accent: true,
+    external: false,
+  },
+  {
+    id: "self-host",
+    label: "Self-hosted",
+    href: "#self-host",
+    active: true,
+    accent: false,
     external: false,
   },
   {
@@ -114,12 +114,12 @@ export function SiteHeader() {
         scrolled ? "translate-y-0" : ""
       }`}
     >
-      <div className="mx-auto max-w-[94rem]">
+      <div className="container mx-auto max-w-6xl">
         <div className="relative">
           <div className="pointer-events-none absolute inset-x-4 top-3 h-16 rounded-full bg-primary/10 blur-2xl" />
 
           <div
-            className={`relative z-10 flex min-h-16 items-center justify-between gap-4 rounded-[2rem] border bg-background/95 px-4 py-3 shadow-[0_18px_56px_rgba(16,24,40,0.12),0_0_0_7px_rgba(255,255,255,0.7)] backdrop-blur-xl transition-all duration-300 sm:min-h-18 sm:px-6 lg:px-10 ${
+            className={`relative z-10 flex min-h-16 items-center justify-between gap-4 rounded-[2rem] border bg-background/95 px-4 py-3 shadow-[0_18px_56px_rgba(16,24,40,0.12),0_0_0_7px_rgba(255,255,255,0.7)] backdrop-blur-xl transition-all duration-300 sm:min-h-18 sm:px-6 lg:px-8 ${
               scrolled ? "border-border/90" : "border-border/70"
             }`}
           >
@@ -136,7 +136,7 @@ export function SiteHeader() {
               />
             </Link>
 
-            <nav className="hidden items-center justify-center gap-2 xl:flex">
+            <nav className="hidden items-center justify-center gap-1.5 xl:flex">
               {HEADER_LINKS.map((item) => {
                 const className = item.active
                   ? "relative bg-primary/8 text-primary shadow-[inset_0_0_0_1px_rgba(220,38,38,0.08)]"
@@ -161,7 +161,7 @@ export function SiteHeader() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`inline-flex h-10 items-center gap-2 rounded-full px-5 text-sm font-semibold transition-colors ${className}`}
+                      className={`inline-flex h-9 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${className}`}
                     >
                       {content}
                     </a>
@@ -173,7 +173,7 @@ export function SiteHeader() {
                     key={item.id}
                     href={item.href}
                     onClick={(e) => scrollToSection(e, item.id)}
-                    className={`inline-flex h-10 items-center gap-2 rounded-full px-5 text-sm font-semibold transition-colors ${className}`}
+                    className={`inline-flex h-9 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${className}`}
                   >
                     {content}
                   </a>
@@ -182,7 +182,7 @@ export function SiteHeader() {
             </nav>
 
             <div className="flex shrink-0 items-center gap-3">
-              <div className="hidden items-center gap-3 xl:flex">
+              <div className="hidden items-center gap-2 xl:flex">
                 <AnimatedButton
                   href={GITHUB_URL}
                   target="_blank"
@@ -190,6 +190,7 @@ export function SiteHeader() {
                   variant="outline"
                   icon="mdi:github"
                   iconPosition="left"
+                  className="h-10 rounded-[1rem] px-4 text-sm"
                 >
                   View on GitHub
                 </AnimatedButton>
@@ -199,7 +200,7 @@ export function SiteHeader() {
                   onClick={(e) => scrollToSection(e, "self-host")}
                   icon="mdi:chevron-right"
                   iconPosition="right"
-                  className="px-6"
+                  className="h-10 rounded-[1rem] px-4 text-sm"
                 >
                   Get Early Access
                 </AnimatedButton>

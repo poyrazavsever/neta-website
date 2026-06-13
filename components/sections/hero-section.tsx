@@ -43,23 +43,23 @@ function MiniMetricCard({
   return (
     <Card
       variant="bordered"
-      className={`absolute z-30 hidden rounded-2xl border-border/70 bg-card/95 shadow-[0_18px_50px_rgba(16,24,40,0.11)] backdrop-blur transition-opacity duration-700 md:block ${className}`}
+      className={`absolute z-30 hidden rounded-2xl border-border/70 bg-card/95 shadow-[0_14px_36px_rgba(16,24,40,0.1)] backdrop-blur transition-opacity duration-700 md:block ${className}`}
       style={style}
     >
-      <CardContent className="p-4">
+      <CardContent className="p-3.5">
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-2 text-left">
             <Typography variant="muted" className="text-xs font-medium">
               {title}
             </Typography>
-            <Typography variant="h3" component="p" className="text-3xl">
+            <Typography variant="h3" component="p" className="text-2xl">
               {value}
             </Typography>
           </div>
           <span
-            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${toneClass}`}
+            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${toneClass}`}
           >
-            <Icon icon={icon} className="h-5 w-5" />
+            <Icon icon={icon} className="h-4.5 w-4.5" />
           </span>
         </div>
         <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-muted">
@@ -83,10 +83,10 @@ function MiniProjectCard({
   return (
     <Card
       variant="bordered"
-      className={`absolute z-30 hidden rounded-2xl border-border/70 bg-card/95 shadow-[0_18px_50px_rgba(16,24,40,0.11)] backdrop-blur transition-opacity duration-700 lg:block ${className}`}
+      className={`absolute z-30 hidden rounded-2xl border-border/70 bg-card/95 shadow-[0_14px_36px_rgba(16,24,40,0.1)] backdrop-blur transition-opacity duration-700 lg:block ${className}`}
       style={style}
     >
-      <CardContent className="p-4 text-left">
+      <CardContent className="p-3.5 text-left">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="h-2.5 w-2.5 rounded-full bg-blue-500" />
@@ -131,10 +131,10 @@ function MiniAssistantCard({
   return (
     <Card
       variant="bordered"
-      className={`absolute z-30 hidden rounded-2xl border-border/70 bg-card/95 shadow-[0_18px_50px_rgba(16,24,40,0.11)] backdrop-blur transition-opacity duration-700 lg:block ${className}`}
+      className={`absolute z-30 hidden rounded-2xl border-border/70 bg-card/95 shadow-[0_14px_36px_rgba(16,24,40,0.1)] backdrop-blur transition-opacity duration-700 lg:block ${className}`}
       style={style}
     >
-      <CardContent className="p-4 text-left">
+      <CardContent className="p-3.5 text-left">
         <div className="flex items-center justify-between">
           <Typography variant="small" className="font-semibold">
             AI Asistan
@@ -205,23 +205,10 @@ export function HeroSection() {
 
   return (
     <section className="relative isolate overflow-hidden px-4 pb-8 pt-14 sm:pt-16 lg:pb-0">
-      <div className="pointer-events-none absolute inset-x-0 top-24 -z-10 mx-auto h-[42rem] max-w-7xl rounded-full bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.1),rgba(255,255,255,0)_66%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-24 -z-10 mx-auto h-[42rem] max-w-5xl rounded-full bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.1),rgba(255,255,255,0)_66%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-72 bg-linear-to-t from-primary/6 to-transparent" />
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center text-center">
-        <div
-          className={`inline-flex items-center gap-3 rounded-full border border-primary/15 bg-background/80 px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm backdrop-blur transition-all duration-700 ${introClass}`}
-        >
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <Icon icon="mdi:shield-lock" className="h-3.5 w-3.5" />
-          </span>
-          <span>Self-hosted</span>
-          <span className="h-1 w-1 rounded-full bg-foreground/55" />
-          <span>Private</span>
-          <span className="h-1 w-1 rounded-full bg-foreground/55" />
-          <span>Single-admin</span>
-        </div>
-
+      <div className="container relative z-10 mx-auto flex max-w-5xl flex-col items-center text-center">
         <div
           className={`mt-5 max-w-5xl transition-all delay-100 duration-700 ${introClass}`}
         >
@@ -271,24 +258,24 @@ export function HeroSection() {
           </AnimatedButton>
         </div>
 
-        <div className="relative z-0 mt-14 w-full max-w-7xl sm:mt-16 lg:mt-20">
+        <div className="relative z-0 mt-24 w-full sm:mt-40 lg:mt-48">
           <div className="pointer-events-none absolute inset-x-[8%] bottom-0 h-[72%] rounded-t-[999px] border border-primary/10 bg-primary/5 blur-[1px]" />
-          <div className="pointer-events-none absolute left-[6%] top-[4%] hidden h-36 w-36 rounded-full border border-dashed border-primary/25 sm:block" />
-          <div className="pointer-events-none absolute right-[5%] top-[4%] hidden h-44 w-44 rounded-full border border-dashed border-primary/25 lg:block" />
-          <span className="pointer-events-none absolute left-[12%] top-[18%] hidden text-primary/35 sm:block">
+          <div className="pointer-events-none absolute left-[6%] top-[10%] hidden h-28 w-28 rounded-full border border-dashed border-primary/25 sm:block" />
+          <div className="pointer-events-none absolute right-[5%] top-[10%] hidden h-36 w-36 rounded-full border border-dashed border-primary/25 lg:block" />
+          <span className="pointer-events-none absolute left-[12%] top-[24%] z-40 hidden text-primary/35 sm:block">
             <Icon icon="mdi:sparkles" className="h-5 w-5" />
           </span>
 
           <img
             src={HERO_IMAGES.bird}
             alt=""
-            className={`pointer-events-none absolute right-[3%] -top-8 hidden h-20 w-auto object-contain transition-opacity delay-500 duration-700 lg:block ${introClass}`}
+            className={`pointer-events-none absolute right-[2%] top-[2%] z-40 hidden h-14 w-auto object-contain transition-opacity delay-500 duration-700 lg:block ${introClass}`}
             style={{ transform: parallax.bird }}
           />
 
-          <div className="relative mx-auto min-h-[16rem] w-full max-w-7xl sm:min-h-[21rem] lg:min-h-[25rem]">
+          <div className="relative mx-auto min-h-[12.5rem] w-full sm:min-h-[16.5rem] lg:min-h-[20.5rem]">
             <div
-              className={`absolute bottom-0 left-1/2 z-20 w-[94%] max-w-4xl -translate-x-1/2 transition-opacity delay-500 duration-700 sm:w-[82%] lg:w-[68%] ${introClass}`}
+              className={`absolute bottom-0 left-1/2 z-20 w-[96%] max-w-4xl -translate-x-1/2 transition-opacity delay-500 duration-700 sm:w-[88%] lg:w-[82%] ${introClass}`}
             >
               <div
                 className="relative aspect-[16/9] overflow-hidden rounded-[1.35rem] border border-border/80 bg-card shadow-[0_28px_90px_rgba(16,24,40,0.16)]"
@@ -308,12 +295,12 @@ export function HeroSection() {
               helper="Müşteri panelinde takip ediliyor"
               icon="mdi:folder-account-outline"
               tone="blue"
-              className={`left-[1%] top-[18%] w-52 delay-700 ${introClass}`}
+              className={`left-[2%] top-[30%] w-44 delay-700 ${introClass}`}
               style={{ transform: parallax.leftTop }}
             />
 
             <MiniProjectCard
-              className={`bottom-[7%] left-[4%] w-64 delay-[800ms] ${introClass}`}
+              className={`bottom-[5%] left-[5%] w-52 delay-[800ms] ${introClass}`}
               style={{ transform: parallax.leftBottom }}
             />
 
@@ -323,12 +310,12 @@ export function HeroSection() {
               helper="Revizyon ve görev akışına bağlı"
               icon="mdi:chart-line"
               tone="amber"
-              className={`right-[1%] top-[19%] w-60 delay-700 ${introClass}`}
+              className={`right-[2%] top-[31%] w-48 delay-700 ${introClass}`}
               style={{ transform: parallax.rightTop }}
             />
 
             <MiniAssistantCard
-              className={`bottom-[8%] right-[4%] w-72 delay-[800ms] ${introClass}`}
+              className={`bottom-[5%] right-[5%] w-56 delay-[800ms] ${introClass}`}
               style={{ transform: parallax.rightBottom }}
             />
           </div>
