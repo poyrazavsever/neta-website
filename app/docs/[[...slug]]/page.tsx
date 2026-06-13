@@ -45,11 +45,11 @@ export default async function DocsPage({ params }: DocsPageProps) {
   const docs = getAllDocs();
 
   return (
-    <div className="px-4 pb-16 pt-8 sm:pt-10">
-      <div className="container mx-auto grid max-w-5xl gap-8 lg:grid-cols-[17rem_1fr] lg:items-start">
+    <div className="px-4 pb-16 pt-8 sm:px-6 sm:pt-10 lg:px-8">
+      <div className="grid w-full gap-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
         <DocsSidebar docs={docs} activeHref={doc.href} />
 
-        <div className="min-w-0 rounded-[2rem] border border-border/70 bg-background/95 p-5 shadow-[0_18px_56px_rgba(16,24,40,0.08)] backdrop-blur-xl sm:p-8">
+        <div className="mx-auto min-w-0 w-full max-w-6xl rounded-4xl border border-border/70 bg-background/95 p-5 shadow-[0_18px_56px_rgba(16,24,40,0.08)] backdrop-blur-xl sm:p-8">
           <MarkdownRenderer content={doc.content} />
         </div>
       </div>
