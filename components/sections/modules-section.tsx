@@ -1,136 +1,237 @@
 import { Icon } from "@iconify/react";
-import { Typography } from "poyraz-ui/atoms";
+import { Badge, Card, CardContent, Typography } from "poyraz-ui/atoms";
 
-const MODULES = [
+const LEFT_FEATURES = [
   {
-    title: "Dashboard",
-    label: "Komuta merkezi",
-    description:
-      "Aktif gelir, yaklaşan teslimler ve tamamlanan işler tek bakışta görünür.",
-    image: "/appSs/dahboard.png",
-    icon: "mdi:view-dashboard-outline",
-    className: "md:col-span-3",
-    imageClassName:
-      "right-4 bottom-3 w-[46%] origin-bottom-right group-hover:scale-[1.04]",
+    title: "Görevler",
+    subtitle: "Trello, Asana, Notion",
+    icon: "mdi:checkbox-marked-outline",
+    tilt: "lg:-rotate-3",
   },
   {
     title: "Müşteriler",
-    label: "CRM",
-    description:
-      "Müşteri notlarını, durumlarını ve bağlı projeleri aynı kayıt altında tut.",
-    image: "/appSs/musteriler.png",
+    subtitle: "Airtable, CRM'ler",
     icon: "mdi:account-group-outline",
-    className: "md:col-span-3",
-    imageClassName:
-      "left-4 bottom-3 w-[50%] origin-bottom-left group-hover:scale-[1.04]",
-  },
-  {
-    title: "Projeler",
-    label: "Pipeline",
-    description:
-      "Milestone, ilerleme ve deadline takibiyle her işi net bir akışta yönet.",
-    image: "/appSs/projeler.png",
-    icon: "mdi:briefcase-outline",
-    className: "md:col-span-2",
-    imageClassName:
-      "right-4 bottom-3 w-[58%] origin-bottom-right group-hover:scale-[1.04]",
-  },
-  {
-    title: "Görevler",
-    label: "Operasyon",
-    description:
-      "Öncelik, durum ve teslim tarihleriyle günlük iş yükünü parçalara ayır.",
-    image: "/appSs/görevler.png",
-    icon: "mdi:checkbox-marked-circle-outline",
-    className: "md:col-span-2",
-    imageClassName:
-      "right-4 bottom-3 w-[58%] origin-bottom-right group-hover:scale-[1.04]",
-  },
-  {
-    title: "Takvim",
-    label: "Plan",
-    description:
-      "Teslimleri, görüşmeleri ve odak zamanlarını tek zaman çizgisinde gör.",
-    image: "/appSs/takvim.png",
-    icon: "mdi:calendar-month-outline",
-    className: "md:col-span-2",
-    imageClassName:
-      "left-4 bottom-3 w-[58%] origin-bottom-left group-hover:scale-[1.04]",
+    tilt: "lg:rotate-2",
   },
   {
     title: "Finans",
-    label: "Ledger",
-    description:
-      "Gelir, gider ve nakit akışını proje bağlamından koparmadan takip et.",
-    image: "/appSs/finans.png",
-    icon: "mdi:finance",
-    className: "md:col-span-3",
-    imageClassName:
-      "right-4 bottom-3 w-[48%] origin-bottom-right group-hover:scale-[1.04]",
+    subtitle: "Excel, banka, muhasebe",
+    icon: "mdi:currency-usd-circle-outline",
+    tilt: "lg:-rotate-1",
   },
   {
-    title: "AI Asistan",
-    label: "İçgörü",
-    description:
-      "Veritabanındaki görev, proje ve finans bilgilerine göre özet ve cevap al.",
-    image: "/appSs/ai.png",
-    icon: "mdi:sparkles",
-    className: "md:col-span-3",
-    imageClassName:
-      "right-4 bottom-3 w-[48%] origin-bottom-right group-hover:scale-[1.04]",
+    title: "Notlar",
+    subtitle: "Notion, Evernote",
+    icon: "mdi:file-document-outline",
+    tilt: "lg:rotate-2",
   },
 ] as const;
 
+const RIGHT_FEATURES = [
+  {
+    title: "AI",
+    subtitle: "ChatGPT, Gemini",
+    icon: "mdi:sparkles",
+    tilt: "lg:rotate-3",
+  },
+  {
+    title: "Takvim",
+    subtitle: "Google Calendar",
+    icon: "mdi:calendar-month-outline",
+    tilt: "lg:-rotate-2",
+  },
+  {
+    title: "Dosyalar",
+    subtitle: "Drive, Dropbox, Box",
+    icon: "mdi:folder-outline",
+    tilt: "lg:rotate-1",
+  },
+  {
+    title: "Faturalar",
+    subtitle: "Fatura programları",
+    icon: "mdi:receipt-text-outline",
+    tilt: "lg:-rotate-2",
+  },
+] as const;
+
+const BENEFITS = [
+  {
+    title: "Tek merkez",
+    description: "Tüm iş akışın tek yerde. Arama, geçiş ve kopyala-yapıştır azalır.",
+    icon: "mdi:target",
+  },
+  {
+    title: "Bağlamlı veri",
+    description: "Projeler, müşteriler ve finans aynı resmin içinde birlikte çalışır.",
+    icon: "mdi:database-outline",
+  },
+  {
+    title: "Daha net çalışma",
+    description: "Daha az araç, daha az geçiş, daha fazla odak ve daha iyi sonuç.",
+    icon: "mdi:chart-line",
+  },
+] as const;
+
+function FeatureCard({
+  feature,
+  side,
+  index,
+}: {
+  feature: (typeof LEFT_FEATURES | typeof RIGHT_FEATURES)[number];
+  side: "left" | "right";
+  index: number;
+}) {
+  const lineClass =
+    side === "left"
+      ? "lg:after:left-[calc(100%+0.25rem)] lg:after:origin-left"
+      : "lg:after:right-[calc(100%+0.25rem)] lg:after:origin-right";
+
+  const lineTilt =
+    index === 0
+      ? side === "left"
+        ? "lg:after:rotate-[8deg]"
+        : "lg:after:-rotate-[8deg]"
+      : index === 3
+        ? side === "left"
+          ? "lg:after:-rotate-[8deg]"
+          : "lg:after:rotate-[8deg]"
+        : "";
+
+  const dotClass =
+    side === "left"
+      ? "lg:before:-right-3"
+      : "lg:before:-left-3";
+
+  return (
+    <Card
+      variant="bordered"
+      className={`relative bg-card/95 shadow-[0_18px_52px_rgba(16,24,40,0.1)] backdrop-blur transition-transform duration-300 hover:-translate-y-1 ${feature.tilt} lg:before:absolute lg:before:top-1/2 lg:before:z-20 lg:before:h-2 lg:before:w-2 lg:before:-translate-y-1/2 lg:before:rounded-full lg:before:bg-primary lg:after:absolute lg:after:top-1/2 lg:after:h-px lg:after:w-28 lg:after:border-t lg:after:border-dashed lg:after:border-primary/45 ${dotClass} ${lineClass} ${lineTilt}`}
+    >
+      <CardContent className="p-4">
+        <div className="flex items-start gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/15 bg-primary/8 text-primary">
+            <Icon icon={feature.icon} className="h-5 w-5" />
+          </span>
+          <div className="min-w-0 text-left">
+            <Typography variant="h3" component="h3" className="text-base">
+              {feature.title}
+            </Typography>
+            <Typography variant="muted" className="mt-1 text-xs">
+              {feature.subtitle}
+            </Typography>
+            <div className="mt-3 space-y-1.5">
+              <span className="block h-1.5 w-full rounded-full bg-muted" />
+              <span className="block h-1.5 w-4/5 rounded-full bg-muted" />
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 export function ModulesSection() {
   return (
-    <section id="modules" className="px-4 py-16 sm:py-20">
-      <div className="container mx-auto max-w-5xl">
-        <div className="mb-8 max-w-2xl space-y-3">
-          <Typography variant="h2" component="h2" className="text-3xl">
-            Freelancer iş akışının tüm{" "}
-            <span className="font-display text-primary">modülleri</span>
+    <section id="modules" className="relative overflow-hidden px-4 py-16 sm:py-20">
+      <div className="pointer-events-none absolute inset-x-0 top-44 mx-auto h-[34rem] max-w-6xl rounded-full bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.1),rgba(255,255,255,0)_68%)]" />
+
+      <div className="container relative mx-auto max-w-7xl">
+        <div className="mx-auto max-w-5xl text-center">
+          <Badge
+            variant="outline"
+            className="mx-auto inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em]"
+          >
+            <Icon icon="mdi:shield-check" className="h-4 w-4 text-primary" />
+            Solution
+          </Badge>
+
+          <Typography
+            variant="h2"
+            component="h2"
+            className="mt-5 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl"
+          >
+            Neta bir görev uygulaması değil.
+            <br />
+            Kişisel <span className="font-display text-primary">işletim sistemin.</span>
           </Typography>
-          <Typography variant="lead">
-            Günlük planından müşteri teslimlerine, finans takibinden AI
-            özetlerine kadar Neta tek self-hosted çalışma alanı olarak çalışır.
+
+          <Typography
+            variant="lead"
+            className="mx-auto mt-5 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg"
+          >
+            Projelerini, müşterilerini, finansını, notlarını, günlük performansını
+            ve AI desteğini tek, self-hosted merkezde birleştir. Dağınıklığı
+            bitir, işine odaklan.
           </Typography>
         </div>
 
-        <div className="grid gap-3 md:grid-cols-6">
-          {MODULES.map((module) => (
-            <article
-              key={module.title}
-              className={`group relative isolate flex min-h-[250px] flex-col overflow-hidden rounded-sm border border-border bg-card transition-colors hover:border-primary ${module.className}`}
+        <div className="relative mt-12 grid gap-6 lg:grid-cols-[0.72fr_1.5fr_0.72fr] lg:items-center">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            {LEFT_FEATURES.map((feature, index) => (
+              <FeatureCard
+                key={feature.title}
+                feature={feature}
+                side="left"
+                index={index}
+              />
+            ))}
+          </div>
+
+          <div className="relative order-first lg:order-none">
+            <div className="pointer-events-none absolute inset-x-8 top-8 h-64 rounded-full bg-primary/8 blur-3xl" />
+            <Card
+              variant="bordered"
+              className="relative overflow-hidden rounded-[1.4rem] border-border/80 bg-card shadow-[0_26px_90px_rgba(16,24,40,0.15)]"
             >
-              <div className="relative z-10 max-w-[18rem] space-y-3 p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-border bg-background text-primary">
-                      <Icon icon={module.icon} className="h-4 w-4" />
-                    </span>
-                    <div>
-                      <Typography variant="h3" component="h3" className="text-base">
-                        {module.title}
-                      </Typography>
-                      <Typography variant="muted">{module.label}</Typography>
-                    </div>
-                  </div>
-                </div>
-
-                <Typography variant="lead" className="text-sm">
-                  {module.description}
-                </Typography>
-              </div>
-
-              <div className="pointer-events-none relative h-full overflow-hidden bg-linear-to-t from-transparent to-muted/80">
+              <div className="relative aspect-[16/10] overflow-hidden">
                 <img
-                  src={module.image}
-                  alt={`${module.title} ekran görüntüsü`}
-                  className={`absolute h-auto rounded-sm border border-border bg-background object-contain transition-transform duration-300 ease-out ${module.imageClassName}`}
+                  src="/appSs/dashboard.png"
+                  alt="Neta dashboard ekran görüntüsü"
+                  className="absolute inset-0 h-full w-full object-cover object-top"
                 />
-                <div className="absolute inset-x-0 top-0 h-12 bg-linear-to-b from-card to-transparent" />
               </div>
-            </article>
+            </Card>
+
+            <div className="mx-auto mt-4 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/8 px-4 py-2 text-sm font-semibold text-primary shadow-sm">
+              <Icon icon="mdi:shield-check" className="h-4 w-4" />
+              Personal Business OS
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            {RIGHT_FEATURES.map((feature, index) => (
+              <FeatureCard
+                key={feature.title}
+                feature={feature}
+                side="right"
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {BENEFITS.map((benefit) => (
+            <Card
+              key={benefit.title}
+              variant="bordered"
+              className="rounded-2xl border-border/80 bg-card/95 shadow-[0_14px_44px_rgba(16,24,40,0.08)]"
+            >
+              <CardContent className="flex gap-4 p-5">
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-primary/15 bg-primary/8 text-primary">
+                  <Icon icon={benefit.icon} className="h-7 w-7" />
+                </span>
+                <div className="text-left">
+                  <Typography variant="h3" component="h3" className="text-lg">
+                    {benefit.title}
+                  </Typography>
+                  <Typography variant="lead" className="mt-1 text-sm">
+                    {benefit.description}
+                  </Typography>
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
