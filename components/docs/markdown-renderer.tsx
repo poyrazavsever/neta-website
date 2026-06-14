@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CodeBlock } from "@/components/docs/code-block";
 
 function parseInline(text: string): ReactNode[] {
   const nodes: ReactNode[] = [];
@@ -80,15 +81,11 @@ export function MarkdownRenderer({ content }: { content: string }) {
       }
 
       blocks.push(
-        <pre
+        <CodeBlock
           key={`code-${index}`}
-          className="my-6 overflow-x-auto rounded-2xl border border-border bg-foreground p-4 text-sm leading-6 text-background"
-        >
-          {language ? (
-            <div className="mb-3 text-xs font-medium text-background/60">{language}</div>
-          ) : null}
-          <code>{codeLines.join("\n")}</code>
-        </pre>,
+          code={codeLines.join("\n")}
+          language={language}
+        />,
       );
 
       index += 1;
