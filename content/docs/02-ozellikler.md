@@ -6,107 +6,138 @@ order: 2
 
 # Özellikler
 
-Neta, freelancerların günlük iş akışını tek bir yerde yönetebilmesi için tasarlanmıştır. MVP kapsamındaki özellikler, operasyonel kullanım odağındadır: müşteri ilişkileri, proje takibi, görev yönetimi, finansal görünürlük ve kişisel performans takibi.
+Neta'yı parça parça özellik eklenmiş bir panel gibi değil, günlük iş akışımı toparlayan bir işletim alanı gibi düşünerek geliştirdim. Her modül tek başına işe yarıyor, ama asıl değer bu modüllerin birbirine bağlanmasında ortaya çıkıyor.
 
 ## Dashboard
 
-Dashboard, çalışma alanının ana ekranıdır. Aktif işlerin, görevlerin, gelir durumunun ve genel performans göstergelerinin hızlıca görülmesini sağlar.
+Dashboard, Neta'yı açtığımda genel durumu hızlıca görebilmem için var. Burada gelir-gider özeti, aktif projeler, tamamlanan görevler, mood ve enerji trendleri gibi bilgiler yer alır.
 
-Dashboard üzerinde amaç, kullanıcının gün içinde neye odaklanması gerektiğini hızlıca anlamasıdır. Bu nedenle Neta, verileri dekoratif bir özet yerine aksiyon alınabilir bir operasyon paneli şeklinde sunar.
+Dashboard'un amacı detaylı işlem yapmak değil, bana şu soruların cevabını hızlıca vermek:
+
+- Bu ay işlerin durumu nasıl?
+- Aktif proje sayım ne?
+- Son dönemde ne kadar gelir veya gider oluştu?
+- Görev tamamlama ritmim nasıl?
+- Kişisel performansım düşüyor mu, yükseliyor mu?
 
 ## Müşteri Yönetimi
 
-Müşteri modülü, freelancerın müşteri portföyünü takip etmesini sağlar.
+Müşteri modülü, CRM'in sade bir versiyonu gibi çalışır. Burada müşteri adı, firma bilgisi, iletişim bilgileri, web sitesi, notlar ve pipeline aşaması tutulur.
 
-Bu bölümde:
+Müşteriler şu aşamalarda takip edilebilir:
 
-- Müşteri kayıtları tutulabilir.
-- Müşteri durumu izlenebilir.
-- Müşteriler projelerle ilişkilendirilebilir.
-- Temel iletişim ve iş takibi bilgileri tek yerde saklanabilir.
+- Lead
+- Contacted
+- Proposal sent
+- Won
+- Lost
 
-Bu yapı, müşteri bilgilerini dağınık notlar, e-postalar veya ayrı tablolar yerine merkezi bir sistemde tutmayı hedefler.
+Böylece sadece aktif müşterileri değil, görüşme hâlindeki potansiyel işleri de takip etmek mümkün olur.
 
 ## Proje Yönetimi
 
-Proje modülü, müşteri işleri ve iç operasyonlar için kullanılabilir.
+Projeler Neta'nın ana omurgalarından biri. Her proje bir müşteriye bağlı olabilir ya da side project olarak bağımsız tutulabilir.
 
-Projeler üzerinden:
+Bir projede şu bilgiler izlenir:
 
-- Proje adı ve açıklaması tutulabilir.
-- Müşteri ilişkisi kurulabilir.
-- Durum ve öncelik takip edilebilir.
-- İlerleme ve teslim süreçleri izlenebilir.
+- Proje adı.
+- Açıklama.
+- Müşteri bağlantısı.
+- Durum.
+- Başlangıç ve teslim tarihi.
+- Bütçe.
+- Para birimi.
+- İlerleme yüzdesi.
+- Kapak görseli.
+- Planlama bölümleri.
+- Revizyon kotası.
 
-Neta'nın proje yapısı, freelancerların aynı anda birden fazla müşteri ve teslimat üzerinde çalıştığı gerçek iş akışına göre tasarlanmıştır.
+Proje ilerlemesi manuel tutulabilir ya da görev durumlarına göre otomatik hesaplanabilir.
 
-## Görev Takibi
+## Görev Yönetimi
 
-Görev yönetimi, günlük operasyonun merkezindedir.
+Görevler proje ve müşteriyle ilişkilendirilebilir. Liste ve kanban görünümü vardır. Her görev için öncelik, durum, son tarih, tahmini süre ve gerçekleşen süre kaydedilebilir.
 
-Görevler:
+Görev durumları:
 
-- Projelerle ilişkilendirilebilir.
-- Öncelik ve durum bilgisi taşıyabilir.
-- Teslim tarihi ile planlanabilir.
-- Günlük çalışma akışında takip edilebilir.
+- `todo`
+- `in_progress`
+- `done`
 
-Amaç, freelancerın hem müşteri işlerini hem de kendi operasyonel görevlerini tek sistemde yönetebilmesidir.
+Öncelikler:
+
+- `low`
+- `medium`
+- `high`
+- `urgent`
+
+Müşteriye görünmesi istenen görevler ayrıca işaretlenebilir. Bu sayede client portal içinde sadece seçtiğim görevler gösterilir.
 
 ## Finans Takibi
 
-Finans modülü, gelir ve giderleri takip etmek için kullanılır.
+Finans modülü gelir ve gider kayıtlarını tutar. Her işlem müşteri veya projeyle ilişkilendirilebilir.
 
-Bu bölümde:
+Kaydedilebilen bilgiler:
 
-- Gelir kayıtları tutulabilir.
-- Gider kayıtları tutulabilir.
-- Nakit akışı izlenebilir.
-- Finansal durum tablo ve grafiklerle analiz edilebilir.
+- Gelir veya gider tipi.
+- Tutar.
+- Para birimi.
+- İşlem tarihi.
+- Kategori.
+- Ödeme durumu.
+- Açıklama.
 
-MVP aşamasında bu modül, tam muhasebe sistemi yerine freelancerın kendi finansal görünürlüğünü artırmayı hedefler.
+Bu modül muhasebe programı yerine geçmek için değil, freelancer olarak işin finansal nabzını günlük seviyede görmek için tasarlandı.
 
-## Takvim
+## Günlük ve Kişisel Performans
 
-Takvim, işlerin tarih bazlı görünümünü sağlar. Görevler, teslim tarihleri ve planlanan işler takvim üzerinden takip edilebilir.
+Neta'da sadece operasyonel işler yok. Günlük modülüyle mood, enerji ve iş memnuniyeti skorları da tutulur.
 
-Takvim modülü, özellikle birden fazla müşteri ve proje ile çalışan kullanıcıların zaman planlamasını kolaylaştırır.
+Bu bölümü eklememin sebebi şu: Freelancer çalışırken iş yükü, motivasyon ve enerji birbirinden bağımsız değil. Proje yoğunluğu artarken enerji düşüyorsa bunu görmek değerli.
 
-## Günlük ve Performans Takibi
+Günlük kaydı şunları içerir:
 
-Journal modülü, kullanıcının ruh hali, enerji seviyesi, çalışma memnuniyeti ve günlük notlarını kaydetmesine yardımcı olur.
+- Tarih.
+- Mood skoru.
+- Enerji skoru.
+- İş memnuniyeti skoru.
+- Not.
 
-Bu veriler zaman içinde kişisel performans analizi için kullanılabilir. Amaç, sadece iş çıktısını değil, çalışma sürdürülebilirliğini de takip etmektir.
+## Analizler
+
+Analizler ekranı, finans ve görev verilerini görselleştirir. Burada proje bazlı gelir dağılımı ve görev durumları gibi özetler görülebilir.
+
+Bu ekranı, detaylı BI aracı gibi değil, günlük kararları kolaylaştıran sade bir performans ekranı olarak düşündüm.
 
 ## AI Asistan
 
-Neta içinde AI destekli bir asistan bulunur. Bu asistan, bağlanan sağlayıcıya göre görevler, finans verileri ve iş akışı hakkında yardımcı olabilir.
+AI asistan, Neta içindeki veriler hakkında soru sormak için kullanılır. Örneğin:
 
-Desteklenebilecek sağlayıcılar:
+- Bu ay finansal durumum nasıl?
+- Hangi projeler riskli görünüyor?
+- Yaklaşan görevlerim neler?
+- Son günlük kayıtlarıma göre enerjim nasıl gidiyor?
 
-- OpenAI
-- Google Gemini
-- Groq
-- Yerel veya özel modeller
-
-AI ayarları uygulama içinden veya environment değişkenleri ile yapılandırılabilir.
+AI asistan `app_settings` içindeki provider ve API key ayarlarını kullanır. OpenAI, Gemini ve Groq desteği vardır. Ayrıca projede yerel Ollama tabanlı Python yardımcı dosyası da ayrı bir kullanım senaryosu için korunur.
 
 ## Client Portal
 
-Client portal, müşterilerin kendi projelerine ait belirli bilgileri görebilmesi için tasarlanmıştır.
+Client portal, müşterilere sınırlı erişim vermek için var. Müşteri kendi hesabıyla giriş yapar ve sadece kendisine bağlı projeleri, public görevleri ve revizyon taleplerini görür.
 
-MVP kapsamında portal kontrollü ve sınırlı erişim modeline göre ele alınır. Amaç, müşteriye şeffaflık sağlarken freelancerın iç operasyon verilerini korumaktır.
+Bu portalın amacı müşteriye tam dashboard açmak değil. Sadece şeffaflık sağlamak:
 
-## MVP Dışında Kalanlar
+- Proje ilerlemesi.
+- Teslim tarihi.
+- Müşteriye açık görevler.
+- Revizyon talepleri.
 
-İlk self-host MVP sürümünde şu özellikler bilinçli olarak sınırlıdır:
+## Storage ve Dosya Kullanımı
 
-- Çoklu ekip üyeliği
-- Karmaşık rol yönetimi
-- Çok tenantlı SaaS modeli
-- Otomatik faturalandırma entegrasyonları
-- Gelişmiş muhasebe sistemi
-- Yüksek erişilebilirlik mimarisi
+Neta Supabase Storage kullanır.
 
-Bu sınırlar, Neta'nın ilk aşamada basit, kurulabilir ve güvenli bir kişisel freelancer işletim sistemi olmasını sağlar.
+Gerekli bucket'lar:
 
+- `avatars`: Profil fotoğrafları için.
+- `project-assets`: Proje kapak görselleri için.
+
+Avatar bucket'ı public olabilir. Proje görselleri ise private tutulur ve uygulama gerektiğinde signed URL üretir.

@@ -1,72 +1,72 @@
 ---
-title: Dokümantasyon
-description: Neta kurulum ve kullanım dokümantasyonu.
+title: Giriş
+description: Neta'nın ne olduğunu, kimler için tasarlandığını ve hangi problemi çözdüğünü anlatır.
 order: 1
 ---
 
-# Neta Dokümantasyonu
+# Giriş
 
-Neta, freelancerlar için tasarlanmış self-host edilebilir bir çalışma alanıdır. Amaç; müşteri, proje, görev, finans, takvim, günlük ve performans takibini tek bir panelde toplamak ve freelancerların günlük operasyonlarını harici SaaS araçlarına bağımlı kalmadan yönetebilmesini sağlamaktır.
+Neta'yı freelancer olarak çalışan birinin işlerini tek yerden yönetebilmesi için tasarladım. Gün içinde müşteri takibi, proje ilerlemesi, görevler, finansal durum, kişisel performans ve bazen de hızlıca soru sorabileceğim bir AI asistan ihtiyacı birbirinden kopuk araçlara dağılıyordu. Neta'nın çıkış noktası bu dağınıklığı azaltmak.
 
-Bu dokümantasyon, Neta'yı tanımak, kendi sunucunda çalıştırmak ve ilk kurulumu doğru tamamlamak için hazırlanmıştır. İçerikler hem teknik kullanıcılar hem de Coolify, Dokploy gibi panel tabanlı araçlarla kurulum yapmak isteyenler için adım adım düzenlenmiştir.
+Bu proje bir ajans yönetim paneli olmaktan çok, bireysel çalışan bir freelancerın kendi operasyonunu düzenli tutması için hazırlanmış bir çalışma alanı. Temel fikir şu: müşterilerimi, projelerimi, görevlerimi, gelir-giderimi, günlük notlarımı ve müşteri portalını aynı sistem içinde görebileyim.
 
-## Kimler İçin?
+## Neta Ne İşe Yarar?
 
-Neta özellikle şu kullanıcılar için uygundur:
+Neta ile şu işleri takip edebilirim:
 
-- Tek başına çalışan freelancerlar
-- Küçük ölçekli danışmanlar
-- Yazılım, tasarım, içerik, pazarlama veya danışmanlık hizmeti veren bağımsız profesyoneller
-- Müşteri ve proje operasyonlarını tek panelde yönetmek isteyen self-host kullanıcıları
-- Kendi verisini kendi sunucusunda tutmak isteyen teknik kullanıcılar
+- Müşterilerimi ve müşteri pipeline'ımı düzenli tutmak.
+- Projelerimi durum, bütçe, ilerleme ve teslim tarihiyle yönetmek.
+- Görevleri proje ve müşteriyle ilişkilendirmek.
+- Gelir ve giderleri kaydetmek.
+- Günlük ruh hâli, enerji ve iş memnuniyeti notları tutmak.
+- Dashboard ve analiz ekranlarıyla genel gidişatı görmek.
+- AI asistana mevcut verilerim hakkında soru sormak.
+- Müşterilere sınırlı bir portal açıp proje ilerlemesini göstermek.
 
-Neta'nın ilk MVP sürümü tek admin odaklıdır. Yani sistem ilk kurulumda bir admin hesabı oluşturur ve sonrasında public kayıt ekranını kapatır. Bu yaklaşım, kişisel kullanım ve tek freelancer senaryosu için daha kontrollü bir güvenlik modeli sağlar.
+## Bu Repo Ne İçerir?
 
-## Self-Host Yaklaşımı
+Bu repo artık sadece Neta web uygulamasını içerir. Uygulama Next.js ile geliştirilmiştir ve dışarıdan bağlanan bir Supabase projesiyle çalışır.
 
-Neta iki farklı kurulum modeli destekler:
+Repo içinde şunlar vardır:
 
-- **Full-stack kurulum:** Neta uygulaması, PostgreSQL, Supabase Auth, PostgREST, Storage ve proxy servisleri aynı Docker Compose yapısı içinde çalışır.
-- **App-only kurulum:** Neta uygulaması mevcut bir Supabase veya Supabase uyumlu backend'e bağlanır.
+- Next.js uygulama kodu.
+- Dashboard, portal ve API route'ları.
+- UI bileşenleri.
+- Supabase bağlantı katmanı.
+- Database migration notları ve SQL kayıtları.
+- Deploy ve geliştirme dokümantasyonu.
 
-İlk MVP için önerilen kurulum **full-stack self-host** modudur. Bu modda harici Supabase hesabına ihtiyaç yoktur. Veritabanı, kimlik doğrulama ve dosya depolama servisleri kendi sunucunda çalışır.
+Repo içinde artık şunlar yoktur:
 
-## Dokümantasyonda Neler Var?
+- Supabase container'ları.
+- PostgreSQL container'ı.
+- Docker Compose deployment yapısı.
+- Otomatik installer scriptleri.
+- Backup/restore scriptleri.
 
-Bu dokümantasyon şu bölümlerden oluşur:
+Bu kararın sebebi basit: Neta'yı Vercel, Coolify veya Dokploy üzerinde standart bir Next.js uygulaması gibi yayınlamak istiyorum. Veritabanı ve auth tarafını ise Supabase üzerinde ayrıca yönetmek daha temiz ve daha anlaşılır bir kurulum sağlıyor.
 
-- Özellikler
-- Teknik mimari
-- Kurulum modları
-- Full-stack kurulum
-- Coolify kurulumu
-- Dokploy kurulumu
-- App-only kurulum
-- İlk admin hesabı ve kayıt kilidi
-- Operasyon, sağlık kontrolü, yedekleme ve geri yükleme
-- Ortam değişkenleri
-- Sorun giderme
-- Güvenlik ve mevcut sınırlar
+## Kimler İçin Uygun?
 
-## Önemli Kavramlar
+Neta özellikle şu kişiler için uygun:
 
-Neta'yı doğru kurmak için şu ayrımları bilmek önemlidir:
+- Tek başına çalışan freelancerlar.
+- Küçük ölçekli müşteri projeleri yöneten geliştiriciler veya tasarımcılar.
+- Projelerini ve finansal durumunu aynı panelde görmek isteyen bağımsız çalışanlar.
+- Müşterilerine basit bir proje takip portalı sunmak isteyenler.
+- Kendi Supabase projesini yönetmekten çekinmeyen kullanıcılar.
 
-- `.env` dosyası Docker Compose kurulumlarında kullanılır.
-- `.env.local` dosyası lokal Next.js geliştirme sırasında kullanılır.
-- Full-stack modda migration dosyaları `neta-migrations` servisi tarafından otomatik çalıştırılır.
-- App-only modda migration dosyalarını bağlandığın Supabase projesinin veritabanında manuel çalıştırman gerekir.
-- İlk admin oluşturulduktan sonra `/register` sayfası kapanır ve giriş için `/login` kullanılır.
+Eğer çok kullanıcılı, ekip rolleri gelişmiş, kurumsal seviyede izin sistemi olan bir SaaS arıyorsanız Neta'nın mevcut hâli bunun için tasarlanmadı. Buradaki odak, tek ana kullanıcı ve onun müşterileri.
 
-## Önerilen Başlangıç
+## Genel Akış
 
-Kendi sunucusunda hızlı kurulum yapmak isteyen kullanıcılar için önerilen yol:
+Kurulumdan sonra akış şu şekilde ilerler:
 
-```bash
-node scripts/generate-full-stack-env.mjs > .env
-docker compose -f docker-compose.full.yml up -d --build
-sh ./scripts/selfhost-doctor.sh
-```
+1. Supabase tarafında gerekli tablo, policy, function ve storage bucket'ları hazırlanır.
+2. Uygulama repo olarak Vercel, Coolify veya Dokploy'a bağlanır.
+3. Ortam değişkenleri girilir.
+4. İlk admin hesabı `/register` üzerinden oluşturulur.
+5. Dashboard üzerinden müşteri, proje, görev ve finans kayıtları eklenmeye başlanır.
+6. İstenirse müşterilere portal hesabı oluşturulur.
 
-Ardından tarayıcıdan Neta adresini açıp ilk admin hesabını oluşturabilirsin.
-
+Bu dokümantasyonun amacı sadece nasıl kurulur demek değil. Aynı zamanda projeyi neden böyle kurguladığımı, hangi parçanın ne işe yaradığını ve özelleştirmek isteyen birinin nereden başlaması gerektiğini netleştirmek.

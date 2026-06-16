@@ -1,113 +1,134 @@
 ---
 title: Mimari
-description: Neta'nın teknik mimarisi ve servis yapısı.
+description: Neta'nın teknik mimarisi, frontend/backend ayrımı ve Supabase bağlantısı.
 order: 3
 ---
 
 # Mimari
 
-Neta, modern web teknolojileri ve Supabase uyumlu açık kaynak servisler üzerine kuruludur. Full-stack self-host modunda uygulama ve backend servisleri tek bir Docker Compose yapısı içinde çalışır.
+Neta'yı klasik bir frontend-backend ayrımından çok, Next.js App Router etrafında şekillenen bir uygulama olarak kurguladım. Uygulamanın backend işlerinin büyük bölümü Supabase üzerinde duruyor. Next.js tarafı ise hem arayüzü hem de server action ve API route gibi uygulama mantığını taşıyor.
 
-## Genel Yapı
+## Ana Teknolojiler
 
-Full-stack kurulumda çalışan ana servisler:
+Projede temel olarak şunlar kullanılır:
 
-- `neta-web`: Next.js uygulaması
-- `neta-db`: PostgreSQL ve pgvector
-- `neta-auth`: Supabase Auth
-- `neta-rest`: PostgREST
-- `neta-storage`: Supabase Storage
-- `neta-supabase-proxy`: Nginx tabanlı API proxy
-- `neta-migrations`: Veritabanı migration runner
+- Next.js App Router.
+- React Server Components.
+- Client Components.
+- Server Actions.
+- Supabase Auth.
+- Supabase Postgres.
+- Supabase Storage.
+- Supabase RLS.
+- Vercel AI SDK.
+- Tailwind CSS.
+- Poyraz UI.
 
-Bu servisler birlikte Neta'nın harici Supabase hesabına ihtiyaç duymadan çalışmasını sağlar.
+Bu yapı sayesinde ayrı bir Express/Nest backend yazmadan, server tarafı işler Next.js içinde yönetilebilir.
 
-## Next.js Uygulaması
+## Route Yapısı
 
-Neta'nın kullanıcı arayüzü Next.js App Router üzerinde çalışır. Uygulama production ortamında standalone build olarak container içine alınır.
+Uygulama `app/` klasörü altında organize edilir.
 
-Uygulama:
+Ana alanlar:
 
-- Dashboard ve modül sayfalarını sunar.
-- Supabase Auth ile oturum yönetimi yapar.
-- PostgREST üzerinden veritabanı işlemlerini gerçekleştirir.
-- Server action ve API route yapıları ile bazı işlemleri sunucu tarafında yürütür.
+- `app/(dashboard)`: Freelancer dashboard ekranları.
+- `app/portal`: Müşteri portalı.
+- `app/login`: Giriş ekranı.
+- `app/register`: İlk admin kayıt ekranı.
+- `app/api`: AI ve yardımcı API route'ları.
 
-## PostgreSQL ve pgvector
+Dashboard route'ları freelancer kullanıcısı için tasarlanmıştır. Portal route'ları ise `client` rolündeki kullanıcıları hedefler.
 
-Veritabanı olarak PostgreSQL kullanılır. Full-stack modda `pgvector/pgvector:pg16` imajı tercih edilir.
+## Layout ve Rol Kontrolü
 
-PostgreSQL şu verileri saklar:
+Dashboard layout içinde kullanıcı profili alınır. Eğer kullanıcının rolü `client` ise dashboard yerine `/portal` tarafına yönlendirilir.
 
-- Kullanıcı profilleri
-- Müşteriler
-- Projeler
-- Görevler
-- Finans kayıtları
-- Journal kayıtları
-- Client portal ilişkileri
-- Uygulama ayarları
+Portal layout ise bunun tersini yapar. Kullanıcının rolü `client` değilse portal'a erişmesine izin verilmez.
 
-pgvector desteği, ileride AI ve embedding tabanlı özellikler için hazır altyapı sağlar.
+Bu ayrım uygulama seviyesinde yapılır, ama asıl güvenlik Supabase RLS politikalarıyla sağlanır. Yani UI yanlışlıkla veri göstermeye çalışsa bile Supabase policy'leri yetkisiz veriyi döndürmemelidir.
 
-## Supabase Auth
+## Supabase Client Katmanları
 
-Kimlik doğrulama için Supabase Auth kullanılır. Full-stack modda Auth servisi Neta'nın kendi PostgreSQL veritabanına bağlanır.
+Projede üç farklı Supabase bağlantısı vardır:
 
-Auth servisi:
+- Browser client: Client component içinde kullanılır.
+- Server client: Server component, server action ve route handler içinde kullanılır.
+- Service role client: Sadece server tarafında, özel yetki gereken işlemler için kullanılır.
 
-- Kullanıcı kaydı
-- Parola ile giriş
-- JWT üretimi
-- Oturum yönetimi
-- Auth tablolarının migration işlemleri
+Service role client özellikle şu işler için gereklidir:
 
-gibi işleri yürütür.
+- İlk admin kullanıcısını oluşturmak.
+- Client portal hesabı oluşturmak.
+- Storage'a server-side upload yapmak.
 
-Neta, ilk admin hesabı oluşturulduktan sonra public kayıt akışını kapatır. Bu kontrol veritabanı fonksiyonu ve trigger ile desteklenir.
+Bu yüzden `SUPABASE_SERVICE_ROLE_KEY` kesinlikle client tarafına çıkarılmamalıdır.
 
-## PostgREST
+## Middleware
 
-PostgREST, PostgreSQL üzerindeki public schema için REST API sağlar. Supabase istemcisi uygulama içinde bu API üzerinden veri okuma ve yazma işlemleri yapar.
+`proxy.ts` içinde Supabase session güncellemesi yapılır. Giriş gerektiren route'larda kullanıcı yoksa `/login` sayfasına yönlendirilir.
 
-Row Level Security politikaları PostgreSQL tarafında uygulanır. Böylece veri erişimi uygulama koduna ek olarak veritabanı seviyesinde de kontrol edilir.
+Public auth route'ları bu kontrolden ayrı tutulur:
 
-## Supabase Storage
+- `/login`
+- `/register`
+- `/auth`
+- `/forgot-password`
 
-Dosya depolama için Supabase Storage API kullanılır. Full-stack modda dosyalar Docker volume içinde lokal disk backend ile saklanır.
+Bu ayrım özellikle önemlidir. Login ekranının açılması için Supabase session doğrulamasını beklemek gereksiz bir blok yaratabilir. Bu yüzden public route'larda middleware dış servisi beklemeden geçer.
 
-Bu yapı MVP için yeterlidir. Daha ileri production senaryolarında S3 uyumlu harici storage desteği değerlendirilebilir.
+## Server Components ve Client Components
 
-## Nginx Proxy
+Neta'da genel desen şudur:
 
-`neta-supabase-proxy`, Supabase uyumlu API giriş noktası sağlar.
+- Sayfa dosyası server component olarak veri çeker.
+- UI ve etkileşim yoğun kısım client component'e aktarılır.
+- CRUD işlemleri `actions.ts` dosyalarında server action olarak tutulur.
 
-Proxy üzerinden:
+Örnek:
 
-- `/auth/v1`
-- `/rest/v1`
-- `/storage/v1`
-- `/health`
+- `app/(dashboard)/tasks/page.tsx`: Veriyi çeker.
+- `app/(dashboard)/tasks/tasks-client.tsx`: Liste, filtre, dialog ve kanban UI'ını yönetir.
+- `app/(dashboard)/tasks/actions.ts`: Görev oluşturma, güncelleme ve silme işlemlerini yapar.
 
-gibi endpointler ilgili servislere yönlendirilir.
+Bu desen projeyi okunabilir tutuyor.
 
-Uygulama container içinden internal URL ile bu proxy'ye bağlanır. Kullanıcı tarafında ise public Supabase API URL değeri kullanılır.
+## Veritabanı Güvenliği
 
-## Migration Runner
+Neta'da veri izolasyonunun ana mantığı `user_id` alanıdır. Freelancer verilerinde genellikle şu policy mantığı kullanılır:
 
-`neta-migrations` servisi tek seferlik çalışan bir container'dır. Görevi, Supabase Auth ve Storage tabloları hazır olduktan sonra Neta'nın kendi SQL dosyalarını doğru sırayla uygulamaktır.
+```sql
+auth.uid() = user_id
+```
 
-Full-stack modda kullanıcı migration dosyalarını manuel çalıştırmaz. Compose başlatıldığında migration runner bu işi otomatik yapar.
+Müşteri portalı için ayrı bir ilişki vardır:
 
-## Veri Akışı
+```txt
+profiles.role = client
+clients.client_auth_id = auth.users.id
+```
 
-Tipik bir istek akışı şöyledir:
+Müşteri sadece kendi client kaydına bağlı projeleri ve public işaretlenmiş görevleri görebilir.
 
-1. Kullanıcı tarayıcıdan Neta arayüzünü açar.
-2. Next.js uygulaması oturum bilgisini Supabase Auth ile doğrular.
-3. Veri istekleri PostgREST üzerinden PostgreSQL'e gider.
-4. PostgreSQL RLS politikaları erişim kontrolünü uygular.
-5. Dosya işlemleri Storage API üzerinden volume tabanlı depoya yazılır.
+## AI Mimarisi
 
-Bu mimari, self-host kullanım için sade, taşınabilir ve Docker tabanlı bir yapı sağlar.
+AI tarafında iki ana akış var:
 
+- Chat ekranı: `/api/chat`
+- Analiz endpoint'leri: `/api/finance-analysis`, `/api/project-risk`
+
+Chat endpoint'i kullanıcının son görev, proje, finans ve günlük kayıtlarından bir bağlam oluşturur. Bu bağlam AI modele sistem mesajı olarak verilir.
+
+Provider ayarları `app_settings` tablosundan okunur. Böylece kullanıcı OpenAI, Gemini veya Groq arasında seçim yapabilir.
+
+## Docker Neden Yok?
+
+Önceki denemelerde full-stack self-host yaklaşımı vardı. Bu yaklaşım Supabase, Postgres, Auth, Storage ve uygulamayı aynı deployment içine almaya çalışıyordu. Çalışır bir fikir olsa da kurulum ve bakım maliyeti fazlaydı.
+
+Şimdiki hedef daha sade:
+
+- Supabase dışarıda yönetilir.
+- Neta sadece Next.js uygulaması olarak deploy edilir.
+- Vercel, Coolify veya Dokploy standart akışları kullanılır.
+
+Bu sayede proje daha az özel kurulum bilgisine ihtiyaç duyar ve GitHub reposundan deploy etmek kolaylaşır.
