@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Agbalumo, Inter } from "next/font/google";
-import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,10 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${agbalumo.variable} antialiased min-h-screen flex flex-col`}
+        className={`${inter.variable} ${agbalumo.variable} antialiased min-h-screen`}
       >
-        <SiteHeader />
-        <main className="flex-1 pt-24">{children}</main>
+        {children}
       </body>
     </html>
   );

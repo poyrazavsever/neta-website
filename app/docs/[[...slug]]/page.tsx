@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { DocsSidebar } from "@/components/docs/docs-sidebar";
+import { DocsPager } from "@/components/docs/docs-pager";
 import { MarkdownRenderer } from "@/components/docs/markdown-renderer";
-import { SiteFooter } from "@/components/site-footer";
 import { getAllDocs, getDocBySlug } from "@/lib/docs";
 
 type DocsPageProps = {
@@ -44,17 +43,17 @@ export default async function DocsPage({ params }: DocsPageProps) {
   }
 
   const docs = getAllDocs();
+  const currentIndex = docs.findIndex((item) => item.href === doc.href);
+  const previous = currentIndex > 0 ? docs[currentIndex - 1] : undefined;
+  const next =
+    currentIndex >= 0 && currentIndex < docs.length - 1
+      ? docs[currentIndex + 1]
+      : undefined;
 
   return (
-    <>
-      <div className="relative px-4 pb-16 pt-8 sm:px-6 sm:pt-10">
-        <DocsSidebar docs={docs} activeHref={doc.href} />
-
-        <div className="mx-auto min-w-0 w-full max-w-6xl rounded-4xl border border-border/70 bg-background/95 p-5 shadow-[0_18px_56px_rgba(16,24,40,0.08)] backdrop-blur-xl sm:p-8">
-          <MarkdownRenderer content={doc.content} />
-        </div>
-      </div>
-      <SiteFooter />
-    </>
+    <div className="min-w-0 pb-8">
+      <MarkdownRenderer content={doc.content} />
+      <DocsPager previous={previous} next={next} />
+    </div>
   );
 }

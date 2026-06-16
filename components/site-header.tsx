@@ -241,7 +241,7 @@ export function SiteHeader() {
                   iconPosition="left"
                   className="h-10 rounded-2xl px-4 text-sm"
                 >
-                  GitHub'da İncele
+                  GitHub&apos;da İncele
                 </AnimatedButton>
 
                 <AnimatedButton
@@ -252,7 +252,7 @@ export function SiteHeader() {
                   iconPosition="right"
                   className="h-10 rounded-2xl px-4 text-sm"
                 >
-                  Demo'yu Gör
+                  Demo&apos;yu Gör
                 </AnimatedButton>
               </div>
 

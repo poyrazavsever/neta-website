@@ -1,68 +1,138 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+} from "poyraz-ui/organisms";
 import type { DocPage } from "@/lib/docs";
 
-function DocsNavLinks({
-  docs,
-  activeHref,
-  onNavigate,
-}: {
-  docs: DocPage[];
-  activeHref: string;
-  onNavigate?: () => void;
-}) {
+const DOC_ICONS = [
+  "mdi:file-document-outline",
+  "mdi:star-four-points-outline",
+  "mdi:source-branch",
+  "mdi:package-variant-closed",
+  "mdi:server-network",
+  "mdi:cloud-outline",
+  "mdi:rocket-launch-outline",
+  "mdi:application-cog-outline",
+  "mdi:account-key-outline",
+  "mdi:clipboard-pulse-outline",
+  "mdi:variable",
+  "mdi:lifebuoy",
+  "mdi:shield-check-outline",
+] as const;
+
+function normalizePathname(pathname: string) {
+  return pathname.endsWith("/") && pathname !== "/"
+    ? pathname.slice(0, -1)
+    : pathname;
+}
+
+function DocsNavLinks({ docs }: { docs: DocPage[] }) {
+  const pathname = normalizePathname(usePathname());
+
   return (
-    <nav className="grid gap-1.5">
+    <SidebarMenu>
       {docs.map((doc) => {
-        const isActive = doc.href === activeHref;
+        const isActive = doc.href === pathname;
+        const icon =
+          DOC_ICONS[doc.meta.order - 1] ?? "mdi:file-document-outline";
 
         return (
-          <Link
+          <SidebarMenuItem
             key={doc.href}
             href={doc.href}
-            onClick={onNavigate}
-            className={`group flex min-h-11 items-center justify-between rounded-[1.05rem] px-3.5 py-2.5 text-sm font-semibold transition-colors ${
-              isActive
-                ? "bg-primary/8 text-primary shadow-[inset_0_0_0_1px_rgba(220,38,38,0.08)]"
-                : "text-foreground hover:bg-accent/70"
-            }`}
+            active={isActive}
+            icon={<Icon icon={icon} className="h-4.5 w-4.5" />}
+            badge={doc.meta.order === 1 ? "Start" : undefined}
+            aria-current={isActive ? "page" : undefined}
           >
-            <span>{doc.meta.title}</span>
-            <Icon
-              icon={isActive ? "mdi:circle-small" : "mdi:chevron-right"}
-              className={`h-5 w-5 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`}
-            />
-          </Link>
+            {doc.meta.title}
+          </SidebarMenuItem>
         );
       })}
-    </nav>
+    </SidebarMenu>
   );
 }
 
-export function DocsSidebar({
-  docs,
-  activeHref,
-}: {
-  docs: DocPage[];
-  activeHref: string;
-}) {
-  const [open, setOpen] = useState(false);
+function SidebarInner({ docs }: { docs: DocPage[] }) {
+  return (
+    <>
+      <SidebarHeader className="px-4 py-5">
+        <Link href="/docs" aria-label="Neta docs">
+          <Image
+            src="/logo/blackLogoLong.png"
+            alt="Neta"
+            width={148}
+            height={48}
+            priority
+            className="h-11 w-auto object-contain"
+          />
+        </Link>
+      </SidebarHeader>
+
+      <SidebarContent className="px-3 py-2">
+        <DocsNavLinks docs={docs} />
+      </SidebarContent>
+
+      <SidebarFooter className="grid grid-cols-3 gap-2 border-t border-border p-3">
+        <Link
+          href="/"
+          aria-label="Siteye dön"
+          title="Siteye dön"
+          className="inline-flex h-10 items-center justify-center rounded-sm border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <Icon icon="mdi:arrow-left" className="h-4 w-4" />
+        </Link>
+        <a
+          href="https://github.com/poyrazavsever/neta"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub"
+          title="GitHub"
+          className="inline-flex h-10 items-center justify-center rounded-sm border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <Icon icon="mdi:github" className="h-4 w-4" />
+        </a>
+        <a
+          href="https://poyrazavsever.com/rss.xml"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="RSS"
+          title="RSS"
+          className="inline-flex h-10 items-center justify-center rounded-sm border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <Icon icon="mdi:rss" className="h-4 w-4" />
+        </a>
+      </SidebarFooter>
+    </>
+  );
+}
+
+export function DocsSidebar({ docs }: { docs: DocPage[] }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [mobileOpen]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setOpen(false);
+        setMobileOpen(false);
       }
     };
 
@@ -72,73 +142,53 @@ export function DocsSidebar({
 
   return (
     <>
-      <div className="sticky top-28 z-30 mb-5 flex justify-start 2xl:hidden">
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="inline-flex h-11 items-center gap-2 rounded-2xl border border-border/80 bg-background/95 px-4 text-sm font-semibold text-foreground shadow-[0_12px_32px_rgba(16,24,40,0.1),0_0_0_6px_rgba(255,255,255,0.68)] backdrop-blur-xl transition-colors hover:bg-accent"
-          aria-label="Dokumantasyon menüsünü aç"
-          aria-expanded={open}
-          aria-controls="docs-mobile-sidebar"
-        >
-          <Icon icon="mdi:menu" className="h-5 w-5" />
-          Docs
-        </button>
-      </div>
-
-      <aside className="fixed left-6 top-28 z-30 hidden w-56 2xl:block">
-        <div className="rounded-[1.5rem] border border-border/70 bg-background/95 p-2.5 shadow-[0_18px_48px_rgba(16,24,40,0.09),0_0_0_6px_rgba(255,255,255,0.68)] backdrop-blur-xl">
-          <DocsNavLinks docs={docs} activeHref={activeHref} />
-        </div>
-      </aside>
+      <button
+        type="button"
+        onClick={() => setMobileOpen(true)}
+        className="fixed left-4 top-4 z-40 inline-flex h-11 w-11 items-center justify-center rounded-sm border border-border bg-background text-foreground shadow-sm transition-colors hover:bg-muted lg:hidden"
+        aria-label="Dokümantasyon menüsünü aç"
+        aria-expanded={mobileOpen}
+      >
+        <Icon icon="mdi:menu" className="h-5 w-5" />
+      </button>
 
       <div
-        className={`fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm transition-opacity 2xl:hidden ${
-          open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+        className={`fixed inset-0 z-40 bg-foreground/20 backdrop-blur-sm transition-opacity lg:hidden ${
+          mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
         aria-hidden="true"
-        onClick={() => setOpen(false)}
+        onClick={() => setMobileOpen(false)}
       />
 
-      <aside
-        id="docs-mobile-sidebar"
-        className={`fixed inset-y-0 left-0 z-40 flex w-full max-w-sm flex-col bg-background px-5 py-5 shadow-[24px_0_80px_rgba(16,24,40,0.18)] transition-transform duration-500 [transition-timing-function:cubic-bezier(.22,1,.36,1)] 2xl:hidden ${
-          open ? "translate-x-0" : "-translate-x-full"
+      <div
+        className={`fixed inset-y-0 left-0 z-50 w-72 transition-transform duration-300 ease-out lg:hidden ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        aria-hidden={!open}
       >
-        <div className="flex items-center justify-between">
-          <Link
-            href="/docs"
-            onClick={() => setOpen(false)}
-            className="flex items-center"
-            aria-label="Neta docs ana sayfa"
-          >
-            <img
-              src="/logo/blackLogoLong.png"
-              alt="Neta"
-              className="h-11 w-auto object-contain"
-            />
-          </Link>
+        <Sidebar
+          variant="default"
+          className="!w-72 border-r border-border bg-background shadow-xl"
+        >
+          <div className="flex h-14 items-center justify-end border-b border-border px-3">
+            <button
+              type="button"
+              onClick={() => setMobileOpen(false)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border bg-background text-foreground transition-colors hover:bg-muted"
+              aria-label="Dokümantasyon menüsünü kapat"
+            >
+              <Icon icon="mdi:close" className="h-5 w-5" />
+            </button>
+          </div>
+          <SidebarInner docs={docs} />
+        </Sidebar>
+      </div>
 
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-background text-foreground transition-colors hover:bg-accent"
-            aria-label="Dokumantasyon menüsünü kapat"
-          >
-            <Icon icon="mdi:close" className="h-6 w-6" />
-          </button>
-        </div>
-
-        <div className="mt-12">
-          <DocsNavLinks
-            docs={docs}
-            activeHref={activeHref}
-            onNavigate={() => setOpen(false)}
-          />
-        </div>
-      </aside>
+      <Sidebar
+        className="fixed inset-y-0 left-0 z-30 hidden !w-64 border-r border-border bg-background lg:flex"
+        variant="default"
+      >
+        <SidebarInner docs={docs} />
+      </Sidebar>
     </>
   );
 }
