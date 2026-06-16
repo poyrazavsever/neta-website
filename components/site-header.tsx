@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
+import { DemoAccessButton } from "@/components/demo-access-button";
 import { AnimatedButton } from "@/components/ui/animated-button";
 
 const GITHUB_URL = "https://github.com/poyrazavsever/neta";
@@ -244,16 +245,7 @@ export function SiteHeader() {
                   GitHub&apos;da İncele
                 </AnimatedButton>
 
-                <AnimatedButton
-                  href="https://demo.takeneta.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  icon="mdi:chevron-right"
-                  iconPosition="right"
-                  className="h-10 rounded-2xl px-4 text-sm"
-                >
-                  Demo&apos;yu Gör
-                </AnimatedButton>
+                <DemoAccessButton className="h-10 rounded-2xl px-4 text-sm" />
               </div>
 
               <button
@@ -374,15 +366,7 @@ export function SiteHeader() {
                 View on GitHub
               </AnimatedButton>
 
-              <AnimatedButton
-                href="/#self-host"
-                onClick={(e) => scrollMobileToSection(e, "self-host")}
-                icon="mdi:chevron-right"
-                iconPosition="right"
-                className="w-full"
-              >
-                Get Early Access
-              </AnimatedButton>
+              <DemoAccessButton className="w-full" />
             </div>
           </div>
         </div>

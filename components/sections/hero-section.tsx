@@ -3,6 +3,7 @@
 import { type CSSProperties, useEffect, useMemo, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Badge, Card, CardContent, Typography } from "poyraz-ui/atoms";
+import { DemoAccessButton } from "@/components/demo-access-button";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
@@ -250,16 +251,7 @@ export function HeroSection() {
           delay={260}
           y={16}
         >
-          <AnimatedButton
-            href="https://demo.takeneta.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            icon="mdi:chevron-right"
-            iconPosition="right"
-            className="min-w-44"
-          >
-            Demo&apos;yu Gör
-          </AnimatedButton>
+          <DemoAccessButton className="min-w-44" />
           <AnimatedButton
             href={GITHUB_URL}
             target="_blank"
