@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import { getLatestRssItems } from "@/lib/rss";
+import { type Locale, siteCopy } from "@/lib/i18n";
 
 const RESOURCE_LINKS = [
   {
@@ -19,7 +20,8 @@ const RESOURCE_LINKS = [
   },
 ] as const;
 
-export function DocsRightRail() {
+export function DocsRightRail({ locale }: { locale: Locale }) {
+  const copy = siteCopy[locale].docs;
   const posts = getLatestRssItems(5);
 
   return (
@@ -55,7 +57,7 @@ export function DocsRightRail() {
 
         <section>
           <h2 className="text-xs font-bold uppercase tracking-normal text-muted-foreground">
-            Kaynaklar
+            {copy.resources}
           </h2>
           <div className="mt-3 grid gap-1">
             {RESOURCE_LINKS.map((link) => (

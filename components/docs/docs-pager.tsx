@@ -1,14 +1,19 @@
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import type { DocPage } from "@/lib/docs";
+import { type Locale, siteCopy } from "@/lib/i18n";
 
 export function DocsPager({
   previous,
   next,
+  locale,
 }: {
   previous?: DocPage;
   next?: DocPage;
+  locale: Locale;
 }) {
+  const copy = siteCopy[locale].docs;
+
   if (!previous && !next) {
     return null;
   }
@@ -26,7 +31,7 @@ export function DocsPager({
           />
           <span className="min-w-0">
             <span className="block text-xs font-semibold uppercase tracking-normal text-muted-foreground">
-              Önceki
+              {copy.previous}
             </span>
             <span className="mt-1 block truncate text-sm font-semibold text-foreground">
               {previous.meta.title}
@@ -44,7 +49,7 @@ export function DocsPager({
         >
           <span className="min-w-0">
             <span className="block text-xs font-semibold uppercase tracking-normal text-muted-foreground">
-              Sonraki
+              {copy.next}
             </span>
             <span className="mt-1 block truncate text-sm font-semibold text-foreground">
               {next.meta.title}

@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { DEFAULT_LOCALE, type Locale, getDocsHref } from "@/lib/i18n";
 
 const DOCS_ROOT = path.join(process.cwd(), "content", "docs");
 
@@ -75,29 +76,29 @@ function getMarkdownFiles(dir: string): string[] {
   });
 }
 
-function slugFromFile(filePath: string) {
-  const relativePath = path.relative(DOCS_ROOT, filePath);
+function getDocsRoot(locale: Locale) {
+  return path.join(DOCS_ROOT, locale);
+}
+
+function slugFromFile(filePath: string, locale: Locale) {
+  const relativePath = path.relative(getDocsRoot(locale), filePath);
   const withoutExtension = relativePath.replace(/\.md$/, "");
   const segments = withoutExtension.split(path.sep);
 
   return segments[0] === "index" ? [] : segments;
 }
 
-function hrefFromSlug(slug: string[]) {
-  return slug.length === 0 ? "/docs" : `/docs/${slug.join("/")}`;
-}
-
-export function getAllDocs() {
-  return getMarkdownFiles(DOCS_ROOT)
+export function getAllDocs(locale: Locale = DEFAULT_LOCALE) {
+  return getMarkdownFiles(getDocsRoot(locale))
     .map((filePath) => {
       const raw = fs.readFileSync(filePath, "utf8");
       const parsed = parseFrontmatter(raw);
-      const slug = slugFromFile(filePath);
-      const fallbackTitle = slug.at(-1) ?? "Dokumantasyon";
+      const slug = slugFromFile(filePath, locale);
+      const fallbackTitle = slug.at(-1) ?? "Documentation";
 
       return {
         slug,
-        href: hrefFromSlug(slug),
+        href: getDocsHref(locale, slug),
         content: parsed.content,
         meta: {
           title: parsed.meta.title ?? fallbackTitle,
@@ -106,12 +107,15 @@ export function getAllDocs() {
         },
       } satisfies DocPage;
     })
-    .sort((a, b) => a.meta.order - b.meta.order || a.meta.title.localeCompare(b.meta.title));
+    .sort(
+      (a, b) =>
+        a.meta.order - b.meta.order || a.meta.title.localeCompare(b.meta.title),
+    );
 }
 
-export function getDocBySlug(slug: string[]) {
+export function getDocBySlug(locale: Locale, slug: string[]) {
   const normalizedSlug = slug.length === 0 ? ["index"] : slug;
-  const filePath = path.join(DOCS_ROOT, ...normalizedSlug) + ".md";
+  const filePath = path.join(getDocsRoot(locale), ...normalizedSlug) + ".md";
 
   if (!fs.existsSync(filePath)) {
     return null;
@@ -120,11 +124,11 @@ export function getDocBySlug(slug: string[]) {
   const raw = fs.readFileSync(filePath, "utf8");
   const parsed = parseFrontmatter(raw);
   const hrefSlug = slug.length === 0 ? [] : slug;
-  const fallbackTitle = hrefSlug.at(-1) ?? "Dokumantasyon";
+  const fallbackTitle = hrefSlug.at(-1) ?? "Documentation";
 
   return {
     slug: hrefSlug,
-    href: hrefFromSlug(hrefSlug),
+    href: getDocsHref(locale, hrefSlug),
     content: parsed.content,
     meta: {
       title: parsed.meta.title ?? fallbackTitle,
