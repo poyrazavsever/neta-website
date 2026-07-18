@@ -143,18 +143,16 @@ export function SiteHeader() {
 
   return (
     <header
-      className={`fixed left-0 top-0 z-50 w-full px-3 pt-2 transition-all duration-300 sm:px-6 ${
-        scrolled ? "translate-y-0" : ""
+      className={`fixed left-0 top-0 z-50 w-full border-b transition-all duration-300 ${
+        scrolled
+          ? "border-border/80 bg-background/95 shadow-[0_8px_30px_rgba(16,24,40,0.08)] backdrop-blur-xl"
+          : "border-transparent bg-transparent"
       }`}
     >
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         <div className="relative">
-          <div className="pointer-events-none absolute inset-x-4 top-3 h-16 rounded-full bg-primary/10 blur-2xl" />
-
           <div
-            className={`relative z-10 flex min-h-16 items-center justify-between gap-4 rounded-4xl border bg-background/95 px-4 py-3 shadow-[0_18px_56px_rgba(16,24,40,0.12),0_0_0_7px_rgba(255,255,255,0.7)] backdrop-blur-xl transition-all duration-300 sm:min-h-18 sm:px-6 lg:px-8 ${
-              scrolled ? "border-border/90" : "border-border/70"
-            }`}
+            className="relative z-10 flex min-h-20 items-center justify-between gap-4 transition-all duration-300"
           >
             <Link
               href="/"
@@ -163,13 +161,17 @@ export function SiteHeader() {
               aria-label="Neta ana sayfa"
             >
               <img
-                src="/logo/blackLogoLong.png"
+                src={
+                  scrolled
+                    ? "/logo/blackLogoLong.png"
+                    : "/logo/lightLogoLong.png"
+                }
                 alt="Neta"
-                className="h-10 w-auto object-contain sm:h-12"
+                className="h-10 w-auto object-contain transition-opacity duration-300 xl:h-12"
               />
             </Link>
 
-            <nav className="hidden items-center justify-center gap-1.5 xl:flex">
+            <nav className="hidden items-center justify-center gap-0.5 min-[1100px]:flex xl:gap-1.5">
               {HEADER_LINKS.map((item) => {
                 const isPageLink =
                   item.href.startsWith("/") && !item.href.startsWith("/#");
@@ -177,17 +179,30 @@ export function SiteHeader() {
                   ? pathname.startsWith(item.href)
                   : activeSection === item.id;
                 const className = isActive
-                  ? "relative bg-primary/8 text-primary shadow-[inset_0_0_0_1px_rgba(220,38,38,0.08)]"
-                  : "text-foreground hover:bg-accent/70";
+                  ? scrolled
+                    ? "relative bg-primary/8 text-primary shadow-[inset_0_0_0_1px_rgba(220,38,38,0.08)]"
+                    : "relative bg-white/12 text-white"
+                  : scrolled
+                    ? "text-foreground hover:bg-accent/70"
+                    : "text-white hover:bg-white/12";
 
                 const content = (
                   <>
                     <span>{item.label}</span>
                     {item.accent ? (
-                      <Icon icon="mdi:sparkles" className="h-4 w-4 text-primary" />
+                      <Icon
+                        icon="mdi:sparkles"
+                        className={`h-4 w-4 ${
+                          scrolled ? "text-primary" : "text-white"
+                        }`}
+                      />
                     ) : null}
                     {isActive ? (
-                      <span className="absolute -bottom-3 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-primary" />
+                      <span
+                        className={`absolute -bottom-3 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full ${
+                          scrolled ? "bg-primary" : "bg-white"
+                        }`}
+                      />
                     ) : null}
                   </>
                 );
@@ -197,7 +212,7 @@ export function SiteHeader() {
                     <Link
                       key={item.id}
                       href={item.href}
-                      className={`inline-flex h-9 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${className}`}
+                      className={`inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 text-[13px] font-semibold transition-colors xl:gap-2 xl:px-4 xl:text-sm ${className}`}
                     >
                       {content}
                     </Link>
@@ -211,7 +226,7 @@ export function SiteHeader() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`inline-flex h-9 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${className}`}
+                      className={`inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 text-[13px] font-semibold transition-colors xl:gap-2 xl:px-4 xl:text-sm ${className}`}
                     >
                       {content}
                     </a>
@@ -223,7 +238,7 @@ export function SiteHeader() {
                     key={item.id}
                     href={item.href}
                     onClick={(e) => scrollToSection(e, item.id)}
-                    className={`inline-flex h-9 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-colors ${className}`}
+                    className={`inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 text-[13px] font-semibold transition-colors xl:gap-2 xl:px-4 xl:text-sm ${className}`}
                   >
                     {content}
                   </a>
@@ -232,7 +247,7 @@ export function SiteHeader() {
             </nav>
 
             <div className="flex shrink-0 items-center gap-3">
-              <div className="hidden items-center gap-2 xl:flex">
+              <div className="hidden items-center gap-1.5 min-[1100px]:flex xl:gap-2">
                 <AnimatedButton
                   href={GITHUB_URL}
                   target="_blank"
@@ -240,18 +255,26 @@ export function SiteHeader() {
                   variant="outline"
                   icon="mdi:github"
                   iconPosition="left"
-                  className="h-10 rounded-2xl px-4 text-sm"
+                  className={`h-9 rounded-2xl px-3 text-[13px] xl:h-10 xl:px-4 xl:text-sm ${
+                    scrolled
+                      ? ""
+                      : "border-white/35 bg-white/10 text-white shadow-none hover:border-white/60 hover:bg-white/20"
+                  }`}
                 >
                   GitHub&apos;da İncele
                 </AnimatedButton>
 
-                <DemoAccessButton className="h-10 rounded-2xl px-4 text-sm" />
+                <DemoAccessButton className="h-9 rounded-2xl px-3 text-[13px] xl:h-10 xl:px-4 xl:text-sm" />
               </div>
 
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(true)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-background text-foreground transition-colors hover:bg-accent xl:hidden"
+                className={`inline-flex h-11 w-11 items-center justify-center rounded-2xl border transition-colors min-[1100px]:hidden ${
+                  scrolled
+                    ? "border-border bg-background text-foreground hover:bg-accent"
+                    : "border-white/35 bg-white/10 text-white hover:bg-white/20"
+                }`}
                 aria-label="Menüyü aç"
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
@@ -263,7 +286,7 @@ export function SiteHeader() {
 
           <div
             id="mobile-menu"
-            className={`fixed inset-0 z-50 flex min-h-dvh flex-col bg-background px-5 py-5 shadow-[24px_0_80px_rgba(16,24,40,0.18)] transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] xl:hidden ${
+            className={`fixed inset-0 z-50 flex min-h-dvh flex-col bg-background px-5 py-5 shadow-[24px_0_80px_rgba(16,24,40,0.18)] transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] min-[1100px]:hidden ${
               mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
             }`}
             aria-hidden={!mobileMenuOpen}
