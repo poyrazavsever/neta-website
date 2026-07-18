@@ -1,89 +1,118 @@
 ---
-title: Giriş
+title: Uygulama Nedir?
 description: Neta'nın ne olduğunu, kimler için tasarlandığını ve hangi problemi çözdüğünü anlatır.
 order: 1
 ---
 
-# Giriş
+# Uygulama Nedir?
 
-Neta'yı freelancer olarak çalışan birinin işlerini tek yerden yönetebilmesi için tasarladım. Gün içinde müşteri takibi, proje ilerlemesi, görevler, finansal durum, kişisel performans ve bazen de hızlıca soru sorabileceğim bir AI asistan ihtiyacı birbirinden kopuk araçlara dağılıyordu. Neta'nın çıkış noktası bu dağınıklığı azaltmak.
+Neta, freelancerların kendi markalarıyla kullanabilecekleri self-hosted bir müşteri ve iş yönetimi portalıdır.
 
-Bu proje bir ajans yönetim paneli olmaktan çok, bireysel çalışan bir freelancerın kendi operasyonunu düzenli tutması için hazırlanmış bir çalışma alanı. Temel fikir şu: müşterilerimi, projelerimi, görevlerimi, gelir-giderimi, günlük notlarımı ve müşteri portalını aynı sistem içinde görebileyim.
+Freelancer; müşterilerini, projelerini, görevlerini, finans kayıtlarını, günlük notlarını, takvimini ve müşteri portalı iletişimini tek bir panelden yönetebilir. Sistem dış bir BaaS servisine bağlı değildir. Veriler SQLite üzerinde tutulur, kimlik doğrulama Better Auth ile yapılır ve dosyalar sunucudaki kalıcı veri alanında saklanır.
 
-## Neta Ne İşe Yarar?
+Neta'nın amacı freelancerın kendi küçük operasyon merkezini kurmasını sağlamaktır. Hazır bir SaaS hesabı kiralamak yerine, kişi kendi sunucusunda çalışan, kendi logosunu ve renklerini taşıyan, müşterilerine kendi domain'i üzerinden açabileceği bir portal sahibi olur.
 
-Neta ile şu işleri takip edebilirim:
+## Kimler İçin?
 
-- Müşterilerimi ve müşteri pipeline'ımı düzenli tutmak.
-- Projelerimi durum, bütçe, ilerleme ve teslim tarihiyle yönetmek.
-- Görevleri proje ve müşteriyle ilişkilendirmek.
-- Gelir ve giderleri kaydetmek.
-- Günlük ruh hâli, enerji ve iş memnuniyeti notları tutmak.
-- Dashboard ve analiz ekranlarıyla genel gidişatı görmek.
-- AI asistana mevcut verilerim hakkında soru sormak.
-- Müşterilere sınırlı bir portal açıp proje ilerlemesini göstermek.
+Neta özellikle şu kullanıcılar için tasarlanmıştır:
 
-## Bu Repo Ne İçerir?
+- Tek başına çalışan freelancerlar
+- Küçük yaratıcı ekipler
+- Yazılım geliştiriciler
+- Tasarımcılar
+- Danışmanlar
+- Ajanslaşma yolunda ilerleyen bağımsız çalışanlar
+- Müşterilerine düzenli proje durumu göstermek isteyen hizmet sağlayıcıları
 
-Bu repo artık sadece Neta web uygulamasını içerir. Uygulama Next.js ile geliştirilmiştir ve dışarıdan bağlanan bir Supabase projesiyle çalışır.
+Neta çok kullanıcılı büyük kurumsal ERP mantığıyla tasarlanmamıştır. Temel hedef, tek owner kullanıcının kendi müşterilerini ve iş akışını yönetmesidir.
 
-Repo içinde şunlar vardır:
+## Neta Ne Sağlar?
 
-- Next.js uygulama kodu.
-- Dashboard, portal ve API route'ları.
-- UI bileşenleri.
-- Supabase bağlantı katmanı.
-- Database migration notları ve SQL kayıtları.
-- Deploy ve geliştirme dokümantasyonu.
+Neta ile freelancer şunları yapabilir:
 
-Repo içinde artık şunlar yoktur:
+- Müşterilerini merkezi olarak takip edebilir.
+- Her müşteri için proje oluşturabilir.
+- Projelere görev, finans kaydı, takvim etkinliği ve not bağlayabilir.
+- Müşterilere portal hesabı açabilir.
+- Müşterilerin yalnızca kendilerine ait verileri görmesini sağlayabilir.
+- Gelir, gider ve bekleyen ödeme takibi yapabilir.
+- Günlük çalışma notlarını ve ruh halini kayıt altına alabilir.
+- AI destekli analizler alabilir.
+- Sistemi kendi logosu, favicon'u ve renkleriyle özelleştirebilir.
+- Kendi sunucusunda, kendi verisi üzerinde çalışabilir.
 
-- Supabase container'ları.
-- PostgreSQL container'ı.
-- Docker Compose deployment yapısı.
-- Otomatik installer scriptleri.
-- Backup/restore scriptleri.
+## Neden Self-Hosted?
 
-Bu kararın sebebi basit: Neta'yı Vercel, Coolify veya Dokploy üzerinde standart bir Next.js uygulaması gibi yayınlamak istiyorum. Veritabanı ve auth tarafını ise Supabase üzerinde ayrıca yönetmek daha temiz ve daha anlaşılır bir kurulum sağlıyor.
+Freelancer araçlarının çoğu dış servisler üzerinde çalışır. Bu kolaydır, fakat bazı durumlarda kontrolü azaltır:
 
-## Kimler İçin Uygun?
+- Verinin nerede tutulduğu net olmayabilir.
+- Abonelik maliyeti artabilir.
+- Marka deneyimi sınırlı kalabilir.
+- Müşteri portalı başka bir ürünün domain'i altında görünebilir.
+- Servis kapanırsa veya fiyat değiştirirse bağımlılık oluşur.
 
-Neta özellikle şu kişiler için uygun:
+Neta self-hosted olduğu için veriler freelancerın kendi sunucusunda tutulur. Domain, logo, renk, favicon ve uygulama adı owner tarafından belirlenir. Bu yapı özellikle kendi markasını daha profesyonel göstermek isteyen freelancerlar için güçlüdür.
 
-- Tek başına çalışan freelancerlar.
-- Küçük ölçekli müşteri projeleri yöneten geliştiriciler veya tasarımcılar.
-- Projelerini ve finansal durumunu aynı panelde görmek isteyen bağımsız çalışanlar.
-- Müşterilerine basit bir proje takip portalı sunmak isteyenler.
-- Kendi Supabase projesini yönetmekten çekinmeyen kullanıcılar.
+## Temel Çalışma Modeli
 
-Eğer çok kullanıcılı, ekip rolleri gelişmiş, kurumsal seviyede izin sistemi olan bir SaaS arıyorsanız Neta'nın mevcut hâli bunun için tasarlanmadı. Buradaki odak, tek ana kullanıcı ve onun müşterileri.
+Bir Neta instance'ı tek bir owner hesabı etrafında çalışır. İlk kurulumda `/register` üzerinden owner hesabı oluşturulur. İlk owner oluşturulduktan sonra public kayıt kapanır.
 
-## Genel Akış
+Sonraki kullanıcılar müşteri portalı için davet edilir. Müşteri kendi hesabıyla giriş yaptığında yalnızca kendisine ait müşteri ve proje verilerini görebilir.
 
-Kurulumdan sonra akış şu şekilde ilerler:
+Bu model Neta'yı sade tutar:
 
-1. Supabase tarafında gerekli tablo, policy, function ve storage bucket'ları hazırlanır.
-2. Uygulama repo olarak Vercel, Coolify veya Dokploy'a bağlanır.
-3. Ortam değişkenleri girilir.
-4. İlk admin hesabı `/register` üzerinden oluşturulur.
-5. Dashboard üzerinden müşteri, proje, görev ve finans kayıtları eklenmeye başlanır.
-6. İstenirse müşterilere portal hesabı oluşturulur.
+- Owner sistemi yönetir.
+- Müşteriler yalnızca kendilerine açılan portal alanını kullanır.
+- Veriler tek bir SQLite database içinde tutulur.
+- Upload edilen dosyalar aynı kalıcı data alanında saklanır.
 
-Bu dokümantasyonun amacı sadece nasıl kurulur demek değil. Aynı zamanda projeyi neden böyle kurguladığımı, hangi parçanın ne işe yaradığını ve özelleştirmek isteyen birinin nereden başlaması gerektiğini netleştirmek.
+## Neta'nın Ana Bölümleri
 
-## Canlı Demo
+Neta şu ana modüllerden oluşur:
 
-Neta'yı kurmadan önce incelemek isterseniz demo ortamını açabilirsiniz:
+- Dashboard
+- Müşteriler
+- Projeler
+- Görevler
+- Takvim
+- Finans
+- Günlük
+- Sohbet ve AI
+- Müşteri portalı
+- Ayarlar ve özelleştirme
 
-```txt
-https://demo.takeneta.com
+Bu modüller birlikte çalışır. Örneğin bir müşteri oluşturulur, ona bir proje bağlanır, projeye görevler eklenir, proje için gelir kaydı girilir ve müşteri portalında ilgili durum paylaşılır.
+
+## Tasarım Yaklaşımı
+
+Neta, operasyonel bir iş paneli olarak tasarlanır. Bu yüzden arayüzde amaç süslemekten çok hızlı tarama, hızlı işlem ve net bilgi sunmaktır.
+
+Ana prensipler:
+
+- Gereksiz karmaşadan uzak durmak
+- Kart, tablo ve liste akışlarını okunabilir tutmak
+- Dark ve light modda tutarlı görünüm sağlamak
+- Poyraz UI bileşenleriyle tek bir tasarım dili kullanmak
+- Müşteri portalını sade ve güvenli tutmak
+
+## Veri Sahipliği
+
+Neta'da ana veri freelancerın kendi kurduğu instance içinde kalır. Runtime aşamasında Supabase, Firebase veya benzeri harici bir BaaS servisi gerekmez.
+
+Ana veri alanı production'da genellikle şudur:
+
+```text
+/app/data/
+  neta.db
+  uploads/
+  backups/
+  tmp/
 ```
 
-Demo hesabı:
+Bu klasör kalıcı volume olarak bağlanır. Böylece container yeniden build edilse bile database ve upload dosyaları korunur.
 
-```txt
-E-posta: test@takeneta.com
-Şifre: 123456
-```
+## Özet
 
-Bu demo ortamı projeyi hızlıca tanımak için var. Dashboard'u, müşteri ve proje ekranlarını, görevleri, finans alanını, AI asistan ekranını ve client portal akışını kurulum yapmadan gezebilirsiniz.
+Neta, freelancerların kendi domain'lerinde çalıştırabileceği, müşterilerine portal açabileceği ve günlük operasyonlarını merkezi olarak yönetebileceği hafif bir self-hosted iş yönetim sistemidir.
+
+Temel değer önerisi şudur: kendi markan, kendi verin, kendi müşteri portalın.
