@@ -4,64 +4,27 @@ import { Icon } from "@iconify/react";
 import { Badge, Card, CardContent, Typography } from "poyraz-ui/atoms";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { AnimatedButton } from "@/components/ui/animated-button";
-
-const DOCS_URL = "/docs";
+import { type Locale, getDocsHref, siteCopy } from "@/lib/i18n";
 
 type SelfHostFlowItem = {
   title: string;
   description: string;
   icon: string;
   accent: boolean;
-  badges?: Array<{
+  badges?: readonly {
     label: string;
     icon: string;
-  }>;
+  }[];
 };
-
-const SELF_HOST_FLOW: SelfHostFlowItem[] = [
-  {
-    title: "Sunucu",
-    description: "VPS / Bare Metal / Ev sunucusu",
-    icon: "mdi:server-outline",
-    accent: false,
-  },
-  {
-    title: "Docker",
-    description: "İzole, taşınabilir çalışma ortamı",
-    icon: "mdi:docker",
-    accent: false,
-  },
-  {
-    title: "Neta App",
-    description: "İş süreçlerin ve yönetim panelin",
-    icon: "mdi:bird",
-    accent: true,
-  },
-  {
-    title: "Supabase",
-    description: "Veritabanın senin kontrolünde",
-    icon: "mdi:database-outline",
-    accent: false,
-  },
-  {
-    title: "AI Models",
-    description: "",
-    icon: "mdi:brain",
-    accent: false,
-    badges: [
-      { label: "OpenAI", icon: "arcticons:openai-chatgpt" },
-      { label: "Gemini", icon: "vscode-icons:file-type-gemini" },
-      { label: "Ollama", icon: "simple-icons:ollama" },
-    ],
-  },
-] as const;
 
 function FlowCard({
   item,
   index,
+  flowLength,
 }: {
   item: SelfHostFlowItem;
   index: number;
+  flowLength: number;
 }) {
   return (
     <ScrollReveal
@@ -128,7 +91,7 @@ function FlowCard({
         </CardContent>
       </Card>
 
-      {index < SELF_HOST_FLOW.length - 1 ? (
+      {index < flowLength - 1 ? (
         <>
           <div className="pointer-events-none absolute -right-4 top-1/2 hidden h-px w-8 -translate-y-1/2 border-t-2 border-dashed border-primary/35 xl:block" />
           <span className="pointer-events-none absolute -right-[1.1rem] top-1/2 hidden -translate-y-1/2 text-primary/70 xl:block">
@@ -140,28 +103,36 @@ function FlowCard({
   );
 }
 
-export function SelfHostSection() {
+export function SelfHostSection({ locale }: { locale: Locale }) {
+  const copy = siteCopy[locale].selfHost;
+  const docsHref = getDocsHref(locale);
+
   return (
     <section id="self-host" className="px-4 py-16 sm:py-20">
       <div className="container mx-auto max-w-6xl">
         <ScrollReveal className="mx-auto max-w-3xl text-center" parallaxY={10}>
           <Typography variant="h2" component="h2" className="text-3xl">
-            Kendi sunucunda{" "}
-            <span className="font-display text-primary">self-host</span>
+            {copy.titlePrefix}{" "}
+            <span className="font-display text-primary">
+              {copy.titleAccent}
+            </span>
           </Typography>
           <Typography
             variant="lead"
             className="mx-auto mt-4 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg"
           >
-            Neta; uygulama, veritabanı ve model seçimlerini sana bırakır.
-            Kendi stack&apos;in üzerinde çalışır, veri akışı tek bir kontrol
-            alanında kalır.
+            {copy.description}
           </Typography>
         </ScrollReveal>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-5 xl:gap-5">
-          {SELF_HOST_FLOW.map((item, index) => (
-            <FlowCard key={item.title} item={item} index={index} />
+          {copy.flow.map((item, index) => (
+            <FlowCard
+              key={item.title}
+              item={item}
+              index={index}
+              flowLength={copy.flow.length}
+            />
           ))}
         </div>
 
@@ -171,13 +142,13 @@ export function SelfHostSection() {
           y={18}
         >
           <AnimatedButton
-            href={DOCS_URL}
+            href={docsHref}
             icon="mdi:arrow-top-right"
             iconPosition="right"
             variant="outline"
             className="min-w-48"
           >
-            Dokümantasyonu İncele
+            {copy.docsCta}
           </AnimatedButton>
         </ScrollReveal>
       </div>

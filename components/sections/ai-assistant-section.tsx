@@ -1,23 +1,11 @@
 import { Icon } from "@iconify/react";
 import { Typography } from "poyraz-ui/atoms";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { type Locale, siteCopy } from "@/lib/i18n";
 
-const AI_FEATURES = [
-  {
-    title: "Verine göre cevap verir",
-    description:
-      "Görev, proje ve finans kayıtlarını okuyup mevcut iş yükün hakkında özet çıkarır.",
-    icon: "mdi:database-search-outline",
-  },
-  {
-    title: "Sağlayıcıyı sen seçersin",
-    description:
-      "OpenAI, Gemini, Groq veya yerel Ollama kurulumlarıyla aynı arayüzden çalışır.",
-    icon: "mdi:tune-variant",
-  },
-] as const;
+export function AiAssistantSection({ locale }: { locale: Locale }) {
+  const copy = siteCopy[locale].ai;
 
-export function AiAssistantSection() {
   return (
     <section id="ai-assistant" className="px-4 py-16 sm:py-20">
       <div className="container mx-auto max-w-6xl">
@@ -27,15 +15,15 @@ export function AiAssistantSection() {
               <div className="flex items-center justify-between border-b border-border px-4 py-3">
                 <div className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-primary" />
-                  <Typography variant="small">AI workspace</Typography>
+                  <Typography variant="small">{copy.workspace}</Typography>
                 </div>
-                <Typography variant="muted">Database-aware assistant</Typography>
+                <Typography variant="muted">{copy.assistantLabel}</Typography>
               </div>
 
               <div className="overflow-hidden bg-muted/60 p-3">
                 <img
                   src="/appSs/ai.png"
-                  alt="Neta AI asistan ekran görüntüsü"
+                  alt={copy.screenshotAlt}
                   className="h-auto w-full rounded-sm border border-border bg-background transition-transform duration-300 ease-out group-hover:scale-[1.015]"
                 />
               </div>
@@ -46,20 +34,19 @@ export function AiAssistantSection() {
             <ScrollReveal x={24} y={22} parallaxY={10}>
               <div className="space-y-3">
                 <Typography variant="h2" component="h2" className="text-3xl">
-                  Çalışma alanını bilen{" "}
-                  <span className="font-display text-primary">AI asistan</span>
+                  {copy.titlePrefix}{" "}
+                  <span className="font-display text-primary">
+                    {copy.titleAccent}
+                  </span>
                 </Typography>
                 <Typography variant="lead">
-                  Neta içindeki asistan, boş bir sohbet kutusu gibi davranmaz.
-                  Kendi veritabanındaki proje, görev ve finans kayıtlarını
-                  bağlam olarak kullanıp freelancer operasyonuna göre cevap
-                  verir.
+                  {copy.description}
                 </Typography>
               </div>
             </ScrollReveal>
 
             <div className="grid gap-3">
-              {AI_FEATURES.map((feature, index) => (
+              {copy.features.map((feature, index) => (
                 <ScrollReveal
                   key={feature.title}
                   delay={140 + index * 90}

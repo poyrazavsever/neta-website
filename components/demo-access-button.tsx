@@ -12,12 +12,14 @@ import {
   ModalTitle,
 } from "poyraz-ui/molecules";
 import { AnimatedButton } from "@/components/ui/animated-button";
+import { DEFAULT_LOCALE, type Locale, siteCopy } from "@/lib/i18n";
 
 const DEMO_URL = "https://demo.takeneta.com";
 const DEMO_EMAIL = "test@takeneta.com";
 const DEMO_PASSWORD = "123456";
 
 type DemoAccessButtonProps = {
+  locale?: Locale;
   className?: string;
   variant?: "primary" | "outline";
   iconPosition?: "left" | "right";
@@ -28,11 +30,15 @@ function CredentialRow({
   label,
   value,
   copied,
+  copyLabel,
+  copiedLabel,
   onCopy,
 }: {
   label: string;
   value: string;
   copied: boolean;
+  copyLabel: string;
+  copiedLabel: string;
   onCopy: () => void;
 }) {
   return (
@@ -54,18 +60,20 @@ function CredentialRow({
           icon={copied ? "mdi:check" : "mdi:content-copy"}
           className="h-4 w-4"
         />
-        {copied ? "Kopyalandı" : "Kopyala"}
+        {copied ? copiedLabel : copyLabel}
       </Button>
     </div>
   );
 }
 
 export function DemoAccessButton({
+  locale = DEFAULT_LOCALE,
   className,
   variant = "primary",
   iconPosition = "right",
   onOpen,
 }: DemoAccessButtonProps) {
+  const copy = siteCopy[locale].demo;
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState<"email" | "password" | "all" | null>(
     null,
@@ -95,29 +103,31 @@ export function DemoAccessButton({
         variant={variant}
         className={className}
       >
-        Demo&apos;yu Gör
+        {copy.button}
       </AnimatedButton>
 
       <Modal open={open} onOpenChange={setOpen}>
         <ModalContent size="lg" className="rounded-sm">
           <ModalHeader>
-            <ModalTitle>Neta Demo</ModalTitle>
-            <ModalDescription>
-              Demo ortamına giriş için test hesabını kullanabilirsin.
-            </ModalDescription>
+            <ModalTitle>{copy.title}</ModalTitle>
+            <ModalDescription>{copy.description}</ModalDescription>
           </ModalHeader>
 
           <div className="grid gap-3">
             <CredentialRow
-              label="E-posta"
+              label={copy.email}
               value={DEMO_EMAIL}
               copied={copied === "email"}
+              copyLabel={copy.copy}
+              copiedLabel={copy.copied}
               onCopy={() => copyValue("email", DEMO_EMAIL)}
             />
             <CredentialRow
-              label="Şifre"
+              label={copy.password}
               value={DEMO_PASSWORD}
               copied={copied === "password"}
+              copyLabel={copy.copy}
+              copiedLabel={copy.copied}
               onCopy={() => copyValue("password", DEMO_PASSWORD)}
             />
           </div>
@@ -129,7 +139,7 @@ export function DemoAccessButton({
               onClick={() =>
                 copyValue(
                   "all",
-                  `Email: ${DEMO_EMAIL}\nŞifre: ${DEMO_PASSWORD}`,
+                  `${copy.allCredentialsLabel}: ${DEMO_EMAIL}\n${copy.allCredentialsPasswordLabel}: ${DEMO_PASSWORD}`,
                 )
               }
               className="gap-2"
@@ -138,12 +148,12 @@ export function DemoAccessButton({
                 icon={copied === "all" ? "mdi:check" : "mdi:content-copy"}
                 className="h-4 w-4"
               />
-              {copied === "all" ? "Bilgiler kopyalandı" : "Bilgileri kopyala"}
+              {copied === "all" ? copy.copiedAll : copy.copyAll}
             </Button>
 
             <Button asChild className="gap-2">
               <a href={DEMO_URL} target="_blank" rel="noopener noreferrer">
-                Demo&apos;ya git
+                {copy.openDemo}
                 <Icon icon="mdi:arrow-top-right" className="h-4 w-4" />
               </a>
             </Button>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Agbalumo, Inter } from "next/font/google";
+import { LocaleHtmlLang } from "@/components/locale-html-lang";
 import "./globals.css";
 
 const inter = Inter({
@@ -14,8 +15,11 @@ const agbalumo = Agbalumo({
 });
 
 export const metadata: Metadata = {
-  title: "Neta",
-  description: "Freelance Management Platform",
+  title: {
+    default: "Neta",
+    template: "%s",
+  },
+  description: "Self-hosted freelancer operating system.",
 };
 
 export default function RootLayout({
@@ -24,10 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <body
         className={`${inter.variable} ${agbalumo.variable} antialiased min-h-screen`}
       >
+        <LocaleHtmlLang />
         {children}
       </body>
     </html>

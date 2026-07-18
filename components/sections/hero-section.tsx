@@ -5,10 +5,12 @@ import { Typography } from "poyraz-ui/atoms";
 import { DemoAccessButton } from "@/components/demo-access-button";
 import { AnimatedButton } from "@/components/ui/animated-button";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { type Locale, siteCopy } from "@/lib/i18n";
 
 const GITHUB_URL = "https://github.com/poyrazavsever/neta";
 
-export function HeroSection() {
+export function HeroSection({ locale }: { locale: Locale }) {
+  const copy = siteCopy[locale].hero;
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -91,8 +93,11 @@ export function HeroSection() {
               component="h1"
               className="text-4xl leading-[1.08] tracking-normal text-white sm:text-5xl lg:text-[3.25rem]"
             >
-              İşlerini <span className="font-display text-primary">tek ve net</span>{" "}
-              yönet.
+              {copy.titlePrefix}{" "}
+              <span className="font-display text-primary">
+                {copy.titleAccent}
+              </span>{" "}
+              {copy.titleSuffix}
             </Typography>
           </ScrollReveal>
 
@@ -101,9 +106,7 @@ export function HeroSection() {
               variant="lead"
               className="ml-auto max-w-[32rem] text-base leading-7 text-white/80 sm:text-lg"
             >
-              Neta; projelerden müşterilere, finanstan günlük performansına ve
-              AI desteğine kadar her şeyi tek bir self-hosted çalışma alanında
-              birleştirir.
+              {copy.description}
             </Typography>
           </ScrollReveal>
 
@@ -112,7 +115,7 @@ export function HeroSection() {
             delay={260}
             y={16}
           >
-            <DemoAccessButton className="min-w-44" />
+            <DemoAccessButton locale={locale} className="min-w-44" />
             <AnimatedButton
               href={GITHUB_URL}
               target="_blank"
@@ -122,7 +125,7 @@ export function HeroSection() {
               variant="outline"
               className="min-w-48 border-white/35 bg-white/10 text-white shadow-none backdrop-blur-sm hover:border-white/60 hover:bg-white/20"
             >
-              GitHub&apos;da İncele
+              {copy.github}
             </AnimatedButton>
           </ScrollReveal>
         </div>

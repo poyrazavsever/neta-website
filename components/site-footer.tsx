@@ -4,24 +4,27 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { Typography } from "poyraz-ui/atoms";
 import { AnimatedButton } from "@/components/ui/animated-button";
+import {
+  type Locale,
+  getDocsHref,
+  getHomeHref,
+  getSectionHref,
+  siteCopy,
+} from "@/lib/i18n";
 
 const GITHUB_URL = "https://github.com/poyrazavsever/neta";
-const DOCS_URL = "/docs";
 const MAKER_URL = "https://poyrazavsever.com";
 
-const FOOTER_LINKS = [
-  { id: "modules", label: "Modules", href: "/#modules" },
-  { id: "client-portal", label: "Features", href: "/#client-portal" },
-  { id: "ai-assistant", label: "AI Assistant", href: "/#ai-assistant" },
-  { id: "self-host", label: "Self-hosted", href: "/#self-host" },
-] as const;
+export function SiteFooter({ locale }: { locale: Locale }) {
+  const copy = siteCopy[locale];
+  const homeHref = getHomeHref(locale);
+  const docsHref = getDocsHref(locale);
 
-export function SiteFooter() {
   const scrollToSection = (
     e: React.MouseEvent<HTMLAnchorElement>,
     id: string,
   ) => {
-    if (window.location.pathname !== "/") {
+    if (window.location.pathname !== homeHref) {
       return;
     }
 
@@ -33,17 +36,17 @@ export function SiteFooter() {
       return;
     }
 
-    window.location.assign(`/#${id}`);
+    window.location.assign(getSectionHref(locale, id));
   };
 
   const scrollToTop = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (window.location.pathname !== "/") {
+    if (window.location.pathname !== homeHref) {
       return;
     }
 
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
-    window.history.pushState(null, "", window.location.pathname);
+    window.history.pushState(null, "", homeHref);
   };
 
   return (
@@ -56,10 +59,10 @@ export function SiteFooter() {
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <Link
-                  href="/"
+                  href={homeHref}
                   onClick={scrollToTop}
                   className="flex shrink-0 items-center"
-                  aria-label="Neta ana sayfa"
+                  aria-label={copy.nav.homeAria}
                 >
                   <img
                     src="/logo/blackLogoLong.png"
@@ -74,15 +77,15 @@ export function SiteFooter() {
                   variant="muted"
                   className="max-w-sm text-sm leading-6"
                 >
-                  Self-hosted freelancer operating system.
+                  {copy.footer.description}
                 </Typography>
               </div>
 
               <nav className="flex flex-wrap items-center gap-1.5">
-                {FOOTER_LINKS.map((item) => (
+                {copy.footer.links.map((item) => (
                   <a
                     key={item.id}
-                    href={item.href}
+                    href={getSectionHref(locale, item.id)}
                     onClick={(e) => scrollToSection(e, item.id)}
                     className="inline-flex h-9 items-center rounded-full px-4 text-sm font-semibold text-foreground transition-colors hover:bg-accent/70"
                   >
@@ -93,13 +96,13 @@ export function SiteFooter() {
 
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <AnimatedButton
-                  href={DOCS_URL}
+                  href={docsHref}
                   variant="outline"
                   icon="mdi:file-document-outline"
                   iconPosition="left"
                   className="h-10 rounded-[1rem] px-4 text-sm"
                 >
-                  Docs
+                  {copy.footer.docs}
                 </AnimatedButton>
 
                 <AnimatedButton
@@ -125,7 +128,7 @@ export function SiteFooter() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 font-medium text-foreground transition-colors hover:text-primary"
               >
-                <span>poyrazavsever tarafından yapıldı</span>
+                <span>{copy.footer.madeBy}</span>
                 <Icon icon="mdi:arrow-top-right" className="h-4 w-4" />
               </a>
             </div>
