@@ -186,9 +186,9 @@ function ConnectorOverlay() {
 export function ModulesSection() {
   return (
     <section id="modules" className="relative overflow-hidden px-4 py-16 sm:py-20">
-      <div className="pointer-events-none absolute inset-x-0 top-40 mx-auto h-[34rem] max-w-5xl rounded-full bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.1),rgba(255,255,255,0)_68%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-40 mx-auto h-[34rem] max-w-6xl rounded-full bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.1),rgba(255,255,255,0)_68%)]" />
 
-      <div className="container relative mx-auto max-w-5xl">
+      <div className="container relative mx-auto max-w-6xl">
         <ScrollReveal className="mx-auto max-w-3xl text-center" parallaxY={10}>
           <Typography
             variant="h2"

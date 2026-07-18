@@ -20,7 +20,7 @@ const AI_FEATURES = [
 export function AiAssistantSection() {
   return (
     <section id="ai-assistant" className="px-4 py-16 sm:py-20">
-      <div className="container mx-auto max-w-5xl">
+      <div className="container mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <ScrollReveal x={-24} y={24} parallaxY={14}>
             <div className="group overflow-hidden rounded-sm border border-border bg-card">

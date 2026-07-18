@@ -143,7 +143,7 @@ function FlowCard({
 export function SelfHostSection() {
   return (
     <section id="self-host" className="px-4 py-16 sm:py-20">
-      <div className="container mx-auto max-w-5xl">
+      <div className="container mx-auto max-w-6xl">
         <ScrollReveal className="mx-auto max-w-3xl text-center" parallaxY={10}>
           <Typography variant="h2" component="h2" className="text-3xl">
             Kendi sunucunda{" "}

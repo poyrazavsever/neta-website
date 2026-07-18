@@ -57,7 +57,7 @@ export function ClientPortalSection() {
 
   return (
     <section id="client-portal" className="px-4 py-16 sm:py-20">
-      <div className="container mx-auto max-w-5xl">
+      <div className="container mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
           <ScrollReveal className="max-w-xl space-y-5" x={-24} parallaxY={10}>
             <div className="space-y-3">

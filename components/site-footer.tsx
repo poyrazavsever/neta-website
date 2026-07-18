@@ -48,7 +48,7 @@ export function SiteFooter() {
 
   return (
     <footer className="px-3 pb-8 pt-10 sm:px-6">
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto max-w-7xl">
         <div className="relative">
           <div className="pointer-events-none absolute inset-x-4 top-4 h-16 rounded-full bg-primary/10 blur-2xl" />
 
