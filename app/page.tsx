@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main className="flex min-h-screen flex-col pt-24">
+      <main className="flex min-h-screen flex-col">
         {/* Hero Section */}
         <HeroSection />
 
