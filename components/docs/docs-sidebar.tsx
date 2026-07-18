@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
+import { LanguageDropdown } from "@/components/language-dropdown";
 import {
   Sidebar,
   SidebarContent,
@@ -14,6 +15,12 @@ import {
   SidebarMenuItem,
 } from "poyraz-ui/organisms";
 import type { DocPage } from "@/lib/docs";
+import {
+  type Locale,
+  getDocsHref,
+  getHomeHref,
+  siteCopy,
+} from "@/lib/i18n";
 
 const DOC_ICONS = [
   "mdi:file-document-outline",
@@ -37,8 +44,15 @@ function normalizePathname(pathname: string) {
     : pathname;
 }
 
-function DocsNavLinks({ docs }: { docs: DocPage[] }) {
+function DocsNavLinks({
+  docs,
+  locale,
+}: {
+  docs: DocPage[];
+  locale: Locale;
+}) {
   const pathname = normalizePathname(usePathname());
+  const copy = siteCopy[locale].docs;
 
   return (
     <SidebarMenu>
@@ -53,7 +67,7 @@ function DocsNavLinks({ docs }: { docs: DocPage[] }) {
             href={doc.href}
             active={isActive}
             icon={<Icon icon={icon} className="h-4.5 w-4.5" />}
-            badge={doc.meta.order === 1 ? "Start" : undefined}
+            badge={doc.meta.order === 1 ? copy.startBadge : undefined}
             aria-current={isActive ? "page" : undefined}
           >
             {doc.meta.title}
@@ -64,11 +78,20 @@ function DocsNavLinks({ docs }: { docs: DocPage[] }) {
   );
 }
 
-function SidebarInner({ docs }: { docs: DocPage[] }) {
+function SidebarInner({
+  docs,
+  locale,
+}: {
+  docs: DocPage[];
+  locale: Locale;
+}) {
+  const pathname = usePathname();
+  const copy = siteCopy[locale].docs;
+
   return (
     <>
       <SidebarHeader className="px-4 py-5">
-        <Link href="/docs" aria-label="Neta docs">
+        <Link href={getDocsHref(locale)} aria-label={copy.sidebarAria}>
           <Image
             src="/logo/blackLogoLong.png"
             alt="Neta"
@@ -81,18 +104,25 @@ function SidebarInner({ docs }: { docs: DocPage[] }) {
       </SidebarHeader>
 
       <SidebarContent className="px-3 py-2">
-        <DocsNavLinks docs={docs} />
+        <DocsNavLinks docs={docs} locale={locale} />
       </SidebarContent>
 
-      <SidebarFooter className="grid grid-cols-3 gap-2 border-t border-border p-3">
+      <SidebarFooter className="grid grid-cols-4 gap-2 border-t border-border p-3">
         <Link
-          href="/"
-          aria-label="Siteye dön"
-          title="Siteye dön"
+          href={getHomeHref(locale)}
+          aria-label={copy.backHome}
+          title={copy.backHome}
           className="inline-flex h-10 items-center justify-center rounded-sm border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <Icon icon="mdi:arrow-left" className="h-4 w-4" />
         </Link>
+        <LanguageDropdown
+          locale={locale}
+          pathname={pathname}
+          label={siteCopy[locale].nav.language}
+          compact
+          placement="top"
+        />
         <a
           href="https://github.com/poyrazavsever/neta"
           target="_blank"
@@ -118,7 +148,14 @@ function SidebarInner({ docs }: { docs: DocPage[] }) {
   );
 }
 
-export function DocsSidebar({ docs }: { docs: DocPage[] }) {
+export function DocsSidebar({
+  docs,
+  locale,
+}: {
+  docs: DocPage[];
+  locale: Locale;
+}) {
+  const copy = siteCopy[locale].docs;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -146,7 +183,7 @@ export function DocsSidebar({ docs }: { docs: DocPage[] }) {
         type="button"
         onClick={() => setMobileOpen(true)}
         className="fixed left-4 top-4 z-40 inline-flex h-11 w-11 items-center justify-center rounded-sm border border-border bg-background text-foreground shadow-sm transition-colors hover:bg-muted lg:hidden"
-        aria-label="Dokümantasyon menüsünü aç"
+        aria-label={copy.openMenu}
         aria-expanded={mobileOpen}
       >
         <Icon icon="mdi:menu" className="h-5 w-5" />
@@ -174,12 +211,12 @@ export function DocsSidebar({ docs }: { docs: DocPage[] }) {
               type="button"
               onClick={() => setMobileOpen(false)}
               className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-border bg-background text-foreground transition-colors hover:bg-muted"
-              aria-label="Dokümantasyon menüsünü kapat"
+              aria-label={copy.closeMenu}
             >
               <Icon icon="mdi:close" className="h-5 w-5" />
             </button>
           </div>
-          <SidebarInner docs={docs} />
+          <SidebarInner docs={docs} locale={locale} />
         </Sidebar>
       </div>
 
@@ -187,7 +224,7 @@ export function DocsSidebar({ docs }: { docs: DocPage[] }) {
         className="fixed inset-y-0 left-0 z-30 hidden !w-64 border-r border-border bg-background lg:flex"
         variant="default"
       >
-        <SidebarInner docs={docs} />
+        <SidebarInner docs={docs} locale={locale} />
       </Sidebar>
     </>
   );
