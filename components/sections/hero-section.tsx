@@ -13,14 +13,14 @@ const GITHUB_URL = "https://github.com/poyrazavsever/neta";
 export function HeroSection({ locale }: { locale: Locale }) {
   const copy = siteCopy[locale].hero;
   const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
   const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const video = videoRef.current;
+    const media = mediaRef.current;
 
-    if (!section || !video) {
+    if (!section || !media) {
       return;
     }
 
@@ -33,7 +33,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
       frame = 0;
 
       if (reducedMotion.matches) {
-        video.style.transform = "";
+        media.style.transform = "";
         return;
       }
 
@@ -41,7 +41,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
         Math.max(window.scrollY, 0),
         section.offsetHeight,
       );
-      video.style.transform = `translate3d(0, ${progress * 0.14}px, 0)`;
+      media.style.transform = `translate3d(0, ${progress * 0.08}px, 0)`;
     };
 
     const handleScroll = () => {
@@ -67,45 +67,47 @@ export function HeroSection({ locale }: { locale: Locale }) {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate flex min-h-[92svh] overflow-hidden bg-neutral-950"
+      className="relative isolate flex min-h-[92svh] overflow-hidden bg-neutral-200 bg-cover bg-center"
+      style={{ backgroundImage: "url('/defaultHero.png')" }}
     >
-      <Image
-        src="/defaultHero.png"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className={`absolute inset-0 -z-30 object-cover transition-opacity duration-700 ${
-          videoReady ? "opacity-0" : "opacity-100"
-        }`}
-        aria-hidden="true"
-      />
+      <div ref={mediaRef} className="absolute inset-0 z-0 will-change-transform">
+        <Image
+          src="/defaultHero.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className={`object-cover object-center transition-opacity duration-700 ${
+            videoReady ? "opacity-0" : "opacity-100"
+          }`}
+          aria-hidden="true"
+        />
 
-      <video
-        ref={videoRef}
-        className={`absolute -inset-y-[15%] left-0 -z-20 h-[130%] w-full object-cover transition-opacity duration-700 will-change-transform ${
-          videoReady ? "opacity-100" : "opacity-0"
-        }`}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        poster="/defaultHero.png"
-        onLoadedData={() => setVideoReady(true)}
-        onCanPlay={() => setVideoReady(true)}
-        onError={() => setVideoReady(false)}
-        aria-hidden="true"
-      >
-        <source src="/hero.mp4" type="video/mp4" />
-      </video>
+        <video
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-700 ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/defaultHero.png"
+          onLoadedData={() => setVideoReady(true)}
+          onCanPlay={() => setVideoReady(true)}
+          onError={() => setVideoReady(false)}
+          aria-hidden="true"
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+      </div>
 
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-black/25" />
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-r from-black/15 via-black/25 to-black/75" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-44 bg-linear-to-b from-black/55 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40 bg-linear-to-t from-black/45 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 z-10 bg-black/25" />
+      <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-r from-black/15 via-black/25 to-black/75" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-44 bg-linear-to-b from-black/55 to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-40 bg-linear-to-t from-black/45 to-transparent" />
 
-      <div className="container mx-auto flex w-full max-w-7xl items-center justify-end px-4 py-24 sm:px-6 lg:py-28">
+      <div className="container relative z-20 mx-auto flex w-full max-w-7xl items-center justify-end px-4 py-24 sm:px-6 lg:py-28">
         <div className="w-full text-right sm:max-w-xl lg:max-w-[32rem]">
           <ScrollReveal delay={100} y={20}>
             <Typography
