@@ -16,7 +16,7 @@ import { DEFAULT_LOCALE, type Locale, siteCopy } from "@/lib/i18n";
 
 const DEMO_URL = "https://demo.takeneta.com";
 const DEMO_EMAIL = "test@takeneta.com";
-const DEMO_PASSWORD = "123456";
+const DEMO_PASSWORD = "12345678Aa!.";
 
 type DemoAccessButtonProps = {
   locale?: Locale;
