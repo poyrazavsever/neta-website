@@ -19,6 +19,8 @@ type LanguageDropdownProps = {
   fullWidth?: boolean;
   compact?: boolean;
   placement?: "top" | "bottom";
+  align?: "start" | "end";
+  menuWidthClassName?: string;
   onSelect?: () => void;
 };
 
@@ -30,6 +32,8 @@ export function LanguageDropdown({
   fullWidth = false,
   compact = false,
   placement = "bottom",
+  align = "end",
+  menuWidthClassName = "w-48",
   onSelect,
 }: LanguageDropdownProps) {
   const [open, setOpen] = useState(false);
@@ -79,6 +83,11 @@ export function LanguageDropdown({
     : "border-white/35 bg-white/10 text-white hover:bg-white/20";
   const menuPlacement =
     placement === "top" ? "bottom-full mb-2" : "top-full mt-2";
+  const menuAlignment = fullWidth
+    ? "left-0 w-full"
+    : align === "start"
+      ? `left-0 ${menuWidthClassName}`
+      : `right-0 ${menuWidthClassName}`;
 
   return (
     <div ref={menuRef} className={`relative ${fullWidth ? "w-full" : ""}`}>
@@ -122,9 +131,7 @@ export function LanguageDropdown({
 
       <div
         role="menu"
-        className={`absolute right-0 z-[60] w-48 overflow-hidden rounded-2xl border border-border bg-background p-1.5 text-foreground shadow-[0_18px_50px_rgba(16,24,40,0.16)] transition-all duration-200 ${
-          fullWidth ? "left-0 w-full" : ""
-        } ${menuPlacement} ${
+        className={`absolute z-[60] overflow-hidden rounded-2xl border border-border bg-background p-1.5 text-foreground shadow-[0_18px_50px_rgba(16,24,40,0.16)] transition-all duration-200 ${menuAlignment} ${menuPlacement} ${
           open
             ? "pointer-events-auto translate-y-0 opacity-100"
             : "pointer-events-none -translate-y-1 opacity-0"

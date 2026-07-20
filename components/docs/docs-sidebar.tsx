@@ -122,6 +122,8 @@ function SidebarInner({
           label={siteCopy[locale].nav.language}
           compact
           placement="top"
+          align="start"
+          menuWidthClassName="w-44"
         />
         <a
           href="https://github.com/poyrazavsever/neta"
