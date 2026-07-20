@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Typography } from "poyraz-ui/atoms";
 import { DemoAccessButton } from "@/components/demo-access-button";
 import { AnimatedButton } from "@/components/ui/animated-button";
@@ -13,6 +14,7 @@ export function HeroSection({ locale }: { locale: Locale }) {
   const copy = siteCopy[locale].hero;
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -67,14 +69,32 @@ export function HeroSection({ locale }: { locale: Locale }) {
       ref={sectionRef}
       className="relative isolate flex min-h-[92svh] overflow-hidden bg-neutral-950"
     >
+      <Image
+        src="/defaultHero.png"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className={`absolute inset-0 -z-30 object-cover transition-opacity duration-700 ${
+          videoReady ? "opacity-0" : "opacity-100"
+        }`}
+        aria-hidden="true"
+      />
+
       <video
         ref={videoRef}
-        className="absolute -inset-y-[15%] left-0 -z-20 h-[130%] w-full object-cover will-change-transform"
+        className={`absolute -inset-y-[15%] left-0 -z-20 h-[130%] w-full object-cover transition-opacity duration-700 will-change-transform ${
+          videoReady ? "opacity-100" : "opacity-0"
+        }`}
         autoPlay
         muted
         loop
         playsInline
         preload="metadata"
+        poster="/defaultHero.png"
+        onLoadedData={() => setVideoReady(true)}
+        onCanPlay={() => setVideoReady(true)}
+        onError={() => setVideoReady(false)}
         aria-hidden="true"
       >
         <source src="/hero.mp4" type="video/mp4" />
