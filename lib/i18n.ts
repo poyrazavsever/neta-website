@@ -253,12 +253,6 @@ export const siteCopy = {
           accent: true,
         },
         {
-          title: "Supabase",
-          description: "Veritabanın senin kontrolünde",
-          icon: "mdi:database-outline",
-          accent: false,
-        },
-        {
           title: "AI Models",
           description: "",
           icon: "mdi:brain",
@@ -472,12 +466,6 @@ export const siteCopy = {
           description: "Your workflows and management panel",
           icon: "mdi:bird",
           accent: true,
-        },
-        {
-          title: "Supabase",
-          description: "Your database under your control",
-          icon: "mdi:database-outline",
-          accent: false,
         },
         {
           title: "AI Models",

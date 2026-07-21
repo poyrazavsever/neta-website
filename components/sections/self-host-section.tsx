@@ -93,8 +93,8 @@ function FlowCard({
 
       {index < flowLength - 1 ? (
         <>
-          <div className="pointer-events-none absolute -right-4 top-1/2 hidden h-px w-8 -translate-y-1/2 border-t-2 border-dashed border-primary/35 xl:block" />
-          <span className="pointer-events-none absolute -right-[1.1rem] top-1/2 hidden -translate-y-1/2 text-primary/70 xl:block">
+          <div className="pointer-events-none absolute -right-4 top-1/2 hidden h-px w-8 -translate-y-1/2 border-t-2 border-dashed border-primary/35 lg:block" />
+          <span className="pointer-events-none absolute -right-[1.1rem] top-1/2 hidden -translate-y-1/2 text-primary/70 lg:block">
             <Icon icon="mdi:arrow-right" className="h-4 w-4" />
           </span>
         </>
@@ -125,7 +125,7 @@ export function SelfHostSection({ locale }: { locale: Locale }) {
           </Typography>
         </ScrollReveal>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-5 xl:gap-5">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {copy.flow.map((item, index) => (
             <FlowCard
               key={item.title}
